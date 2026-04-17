@@ -40,6 +40,15 @@
   </div>
 
   <script>
+      //Const and Variables here
+      const messageErr = document.getElementById('message');
+      const btnRetry = document.getElementById('retry');
+
+      let firstRandCall = 0;
+      let randCallActive = 0;
+      let timerId = null;
+
+
     (function(window, document) {
       function adSuccess() {
         window.top.postMessage({ type: 'success' }, '*');
@@ -93,13 +102,6 @@
         document.getElementById('overlay').classList.add('hidden');
       });
 
-      //Const and Variables here
-      const messageErr = document.getElementById('message');
-      const btnRetry = document.getElementById('retry');
-
-      let firstRandCall = 0;
-      let randCallActive = 0;
-      let timerId = null;
  
 /*
       const errorMessages = [
