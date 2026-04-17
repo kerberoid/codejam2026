@@ -67,7 +67,7 @@
           const nextDelay = Math.random() * 10000;
           // Schedule the next execution
           timerID = setTimeout(triggerRandomly, nextDelay);
-          
+
           // when the first call gets triggered ignore to prevent going back too much
           if(firstRandCall < 1){
             console.log("next will trigger");
@@ -101,8 +101,8 @@
       btnRetry.addEventListener('click', () => {
         document.getElementById('overlay').classList.add('hidden');
         adPlay();
+        randCallActive = 1;          
         triggerRandomly();  
-        randCallActive = 1;  
         console.log("ad resumed");
       });
 
@@ -127,8 +127,8 @@
         // When Video starts start the error timer
         if (event.data && event.data.type === 'adStarted') {
           console.log("Video Playing"); 
-          triggerRandomly();  
           randCallActive = 1;  
+          triggerRandomly();  
         }
       });
 
