@@ -63,6 +63,11 @@
       function triggerRandomly() {
         // check if random calls are active. deactivated when overlay is showing or video not started
         if(randCallActive == 1){
+          // Generate a random delay between 0 and 10,000 ms (10 seconds)
+          const nextDelay = Math.random() * 10000;
+          // Schedule the next execution
+          timerID = setTimeout(triggerRandomly, nextDelay);
+          
           // when the first call gets triggered ignore to prevent going back too much
           if(firstRandCall < 1){
             console.log("next will trigger");
@@ -81,10 +86,7 @@
       else{
         console.log("called but not active");
       }
-        // Generate a random delay between 0 and 10,000 ms (10 seconds)
-        const nextDelay = Math.random() * 10000;
-        // Schedule the next execution
-        timerID = setTimeout(triggerRandomly, nextDelay);
+
         //start with triggerRandomly();
         firstRandCall++;
       }
