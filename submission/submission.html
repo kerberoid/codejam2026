@@ -60,6 +60,13 @@
         window.top.postMessage({ type: 'play' }, '*');
       }
 
+      function stopTrigger() {
+        if (timerId) {
+          clearTimeout(timerId);
+          console.log("Timer stopped successfully.");
+        }
+      }
+
       function triggerRandomly() {
         // check if random calls are active. deactivated when overlay is showing or video not started
         if(randCallActive == 1){
@@ -91,12 +98,6 @@
         firstRandCall++;
       }
 
-      function stopTrigger() {
-        if (timerId) {
-          clearTimeout(timerId);
-          console.log("Timer stopped successfully.");
-        }
-      }
 
       btnRetry.addEventListener('click', () => {
         document.getElementById('overlay').classList.add('hidden');
