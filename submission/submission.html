@@ -50,7 +50,7 @@
 
       function triggerRandomly() {
         // check if random calls are active. deactivated when overlay is showing or video not started
-        if(randCallActive = 1){
+        if(randCallActive == 1){
           // when the first call gets triggered ignore to prevent going back too much
           if(firstRandCall < 1){
             console.log("next will trigger")
@@ -108,6 +108,7 @@
         // When Video starts start the error timer
         if (event.data && event.data.type === 'play') {
           randCallActive = 1;     
+          triggerRandomly();  
         }
       });
 
