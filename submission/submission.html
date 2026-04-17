@@ -95,14 +95,14 @@
       });
 
       window.addEventListener('message', (event) => {
-        // When Video ends do succuess
+        // When Video starts start the error timer
         if (event.data && event.data.type === 'play') {
-          triggerRandomly();          
+          randCallActive = 1;     
         }
       });
 
       // start calling my functions here
-  
+      triggerRandomly();  
 
 
     })(window, document);

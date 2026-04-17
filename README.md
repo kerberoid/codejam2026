@@ -1,11 +1,7 @@
 # My Notes
 todo:
-your ad starts in: 5-4-3-2-1
-show skip ad button: skip in 10-..3-2-1
-break up ad with sponsor survey
-increase timer with wrong answers, continue Ad with ok answers
-Say "invalid opinion" or the like
-additional "sanity" effects when choosing wrong:
+ERROR 2000 click to retry
+additional "sanity" effects when "reloading"
 increasing volume past 100%,
 skew video (skewX (xdeg))
 
