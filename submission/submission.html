@@ -47,6 +47,7 @@
       function adpause() {
         window.top.postMessage({ type: 'pause' }, '*');
       }
+      function 
 
       function triggerRandomly() {
         // check if random calls are active. deactivated when overlay is showing or video not started
@@ -112,6 +113,7 @@
         if (event.data && event.data.type === 'play') {
           randCallActive = 1;     
           triggerRandomly();  
+          console.log("Video Playing");
         }
       });
 
