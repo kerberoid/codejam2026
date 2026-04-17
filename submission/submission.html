@@ -45,10 +45,28 @@
         window.top.postMessage({ type: 'success' }, '*');
       }
 
+      function triggerRandomly() {
+        if(firstRandCall < 1){
+          console.log("First call, next will trigger")
+        }
+        else{
+          console.log("Function triggered at:", new Date().toLocaleTimeString());
+        }
+
+        // Generate a random delay between 0 and 10,000 ms (10 seconds)
+        const nextDelay = Math.random() * 10000;
+
+        // Schedule the next execution
+        setTimeout(triggerRandomly, nextDelay);
+        //start with triggerRandomly();
+        firstRandCall++;
+      }
+
+      //Const and Variables here
       const messageErr = document.getElementById('message');
 
-      let = 0;
-      let attempts = 0;
+      let firstRandCall = 0;
+ 
 /*
       const errorMessages = [
         'There was a network error. Please try again. (Error #2000)',
@@ -64,6 +82,9 @@
           adSuccess()
         }
       });
+
+      // start calling my functions here
+      triggerRandomly();
 
 
     })(window, document);
