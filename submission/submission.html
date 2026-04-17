@@ -60,6 +60,8 @@
             console.log("Function triggered at:", new Date().toLocaleTimeString());
             randCallActive = 0;
             adpause();
+            //stop trigger from firing while paused
+            stopTrigger();
           }
       }
 
@@ -67,9 +69,16 @@
         const nextDelay = Math.random() * 10000;
 
         // Schedule the next execution
-        setTimeout(triggerRandomly, nextDelay);
+        timerID = setTimeout(triggerRandomly, nextDelay);
         //start with triggerRandomly();
         firstRandCall++;
+      }
+
+      function stopTrigger() {
+        if (timerId) {
+          clearTimeout(timerId);
+          console.log("Timer stopped successfully.");
+        }
       }
 
       //Const and Variables here
@@ -77,6 +86,7 @@
 
       let firstRandCall = 0;
       let randCallActive = 0;
+      let timerId = null;
  
 /*
       const errorMessages = [
