@@ -106,10 +106,19 @@
           adSuccess()
         }
       });
-
+/*
       window.addEventListener('message', (event) => {
         // When Video starts start the error timer
         if (event.data && event.data.type === 'play') {
+          randCallActive = 1;     
+          triggerRandomly();  
+          console.log("Video Playing");
+        }
+      });
+*/
+      window.addEventListener('message', (event) => {
+        // When Video starts start the error timer
+        if (event.data && event.data.type === 'adStarted') {
           randCallActive = 1;     
           triggerRandomly();  
           console.log("Video Playing");
