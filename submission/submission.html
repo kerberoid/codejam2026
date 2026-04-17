@@ -17,7 +17,7 @@
     #overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.5);
+      background: rgba(0, 0, 0, 0.9);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -36,7 +36,7 @@
 </head>
 <body>
   <div id="overlay" class="hidden">
-
+    <button id="retry" > Retry </button>
   </div>
 
   <script>
@@ -44,8 +44,11 @@
       function adSuccess() {
         window.top.postMessage({ type: 'success' }, '*');
       }
-      function adpause() {
+      function adPause() {
         window.top.postMessage({ type: 'pause' }, '*');
+      }
+      function adPlay() {
+        window.top.postMessage({ type: 'play' }, '*');
       }
 
       function triggerRandomly() {
@@ -59,7 +62,7 @@
           else{
             console.log("Function triggered at:", new Date().toLocaleTimeString());
             randCallActive = 0;
-            adpause();
+            adPause();
             //stop trigger from firing while paused
             stopTrigger();
             //show overlay
@@ -86,8 +89,13 @@
         }
       }
 
+      btnRetry.addEventListener('click', () => {
+        document.getElementById('overlay').classList.add('hidden');
+      });
+
       //Const and Variables here
       const messageErr = document.getElementById('message');
+      const btnRetry = document.getElementById('retry');
 
       let firstRandCall = 0;
       let randCallActive = 0;
