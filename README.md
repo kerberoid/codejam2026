@@ -1,14 +1,6 @@
 # My Notes
 todo:
-move video back when paused
-ERROR 2000 click to retry
-additional "sanity" effects when "reloading"
-increasing volume past 100%,
-skew video (skewX (xdeg))
-
-
-
-
+add saturation, buffer on video load after break, set playback speed to random between 0.9 and 1.1
 
 
 

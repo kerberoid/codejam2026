@@ -17,18 +17,47 @@
     #overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.9);
+      background: rgba(0, 0, 0, 0.95); 
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: sans-serif;
+      font-family: 'Roboto', sans-serif; 
+      z-index: 2000;
+    }
+    #error-card {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-top: 4px solid #d93025; 
+      padding: 32px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     }
 
     #message {
-      margin-top: 12px;
-      font-size: 13px;
-      color: #d93025;
-      min-height: 20px;
+      font-size: 16px;
+      line-height: 1.5;
+      color: #eeeeee;
+      margin-bottom: 24px;
+      min-height: 48px; 
+    }
+
+    #retry {
+      background: #d93025;
+      color: white;
+      border: none;
+      padding: 10px 24px;
+      font-size: 14px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    #retry:hover {
+      background: #b71c1c;
     }
 
     #check-overlay {
@@ -59,18 +88,19 @@
   </style>
 </head>
 <body>
-  <div id="overlay" class="hidden">
-    <table>
-      <tr><div id="message"></div></tr>
-      <tr><button id="retry" > Retry </button></tr>
-    </table>    
+
+  <div id="check-overlay" class="hidden">
+    <div id="check-content">
+      <h2>Are you still there?</h2>
+      <div id="countdown-display">5</div>
+      <button id="btn-yes">Yes</button>
+    </div>
   </div>
 
-<div id="check-overlay" class="hidden">
-  <div id="check-content">
-    <h2>Are you still there?</h2>
-    <div id="countdown-display">5</div>
-    <button id="btn-yes">Yes</button>
+<div id="overlay" class="hidden">
+  <div id="error-card">
+    <div id="message">ERR</div>
+    <button id="retry">Retry Connection</button>
   </div>
 </div>
 
@@ -81,6 +111,7 @@
       const checkOverlay = document.getElementById('check-overlay');
       const countdownDisplay = document.getElementById('countdown-display');
       const btnYes = document.getElementById('btn-yes');
+      const overlay = document.getElementById('overlay');
 
       // change errors mostly to compatability and quality errors
       const errorMessages = [
@@ -96,6 +127,8 @@
         'too many Ad requests, server quality lowered, please RETRY',
         'Viewer is busy, lowered quality to save energy, please RETRY',
         'user not PREMIUM member, to continue with lower quality, please RETRY',
+        'Hardware acceleration error: Compatibility mode required, please RETRY',
+        'The video playback engine encountered an unexpected state, please RETRY',
       ];
 
       let firstRandCall = 0;
@@ -118,7 +151,7 @@
         window.top.postMessage({ type: 'success' }, '*');
       }
       function adFail() {
-        window.top.postMessage({ type: 'fail' }, '*'); // Tells index.html to show fail message
+        window.top.postMessage({ type: 'fail' }, '*');
       }
       function adPause() {
         window.top.postMessage({ type: 'pause' }, '*');
@@ -138,7 +171,7 @@
       // this runs the Visible timeout
       function startCheckTimer() {
         if (isThere == 0){
-          countdownValue = 5;
+          countdownValue = 5; //how long the visible Timeout is
           countdownDisplay.textContent = countdownValue;
           checkOverlay.classList.remove('hidden');
 
@@ -148,16 +181,15 @@
 
             if (countdownValue <= 0) {
               clearInterval(countdownInterval);
-              adFail(); // Timer ran out
+              adFail(); // Timer ran out, Ad Display fails
             }
           }, 1000);
         }
       }
       // runs the timeout while error is on screen before visible timeout shows
       function startPreCheckTimer() {
-        isThere = 0; //set if person is there to 0, determines if second popup shows
-        countdownValue = 5;
-        countdownDisplay.textContent = countdownValue;
+        isThere = 0; //set if person is there to 0, determines if visible popup shows
+        countdownValue = 5; //how long the timeout is until the visible timeout appears
         countdownInterval = setInterval(() => {
           countdownValue--;
           if (countdownValue <= 0) {
@@ -167,7 +199,7 @@
         }, 1000);
       }
 
-
+      // stop the ad breaking trigger timer
       function stopTrigger() {
         if (timerID) {
           clearTimeout(timerID);
@@ -221,17 +253,20 @@
             adPause();
             //stop trigger from firing while paused
             stopTrigger();
-            //show overlay
-            document.getElementById('overlay').classList.remove('hidden');
+            
             // query Video state
             requestVideoInfo();
-            // set random message in message div
+            // set random message in error Card
             const randomIndex = Math.floor(Math.random() * errorMessages.length);
             messageErr.textContent = errorMessages[randomIndex];
+            //show Error Card
+            document.getElementById('overlay').classList.remove('hidden');
+            //clear Timer for next use
             clearInterval(countdownInterval);
+            // start pretimeout timer
             startPreCheckTimer();
             //rotate hue, increase contrast, increase brightness, increase Blur, next up increase saturation
-            // tested values (45,50,40,1)
+            // tested values (45,50,35,1)
             addVideoEffects(45,50,35,1);
             //add a random speed modifier TODO
           }
