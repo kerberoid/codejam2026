@@ -48,6 +48,7 @@
       let randCallActive = 0;
       let timerID = null;
       let videoInformation = null;
+      let currentVidTimeStamp = 0;
 
 
     (function(window, document) {
@@ -63,10 +64,13 @@
       function adPlayspeedNorm() {
         window.top.postMessage({type: 'setPlaybackRate', value: 1}, '*');
       }
-      function adPlayspeedRev() {
-        window.top.postMessage({type: 'setPlaybackRate', value: -0.5}, '*');
+      function requestVideoInfo() {
+        window.top.postMessage({ type: 'getVideoInfo' }, '*');
       }
-
+      function setVideoback() {
+        currentVidTimeStamp = ideoInformation.currentTime - 2,
+        window.top.postMessage({ type: 'seekto' }, '*');
+      }
 
 
       function stopTrigger() {
@@ -97,8 +101,10 @@
             stopTrigger();
             //show overlay
             document.getElementById('overlay').classList.remove('hidden');
-            //set speed negative
-            adPlayspeedRev();
+            // query Video state
+            requestVideoInfo();
+            // set Video back
+            setVideoback();
           }
       }
       else{
@@ -146,6 +152,15 @@
           triggerRandomly();  
         }
       });
+
+      window.addEventListener('message', (event) => {
+        // get that viedeo info
+        if (event.data && event.data.type === 'videoInfo') {
+        videoInformation = event.data;
+        console.log("Current Video Time:", videoInformation.currentTime);
+        console.log("Is Paused:", videoInformation.paused);
+        // use videoInformation.duration, .volume, .muted, etc. to get queried data
+      }
 
 
       // start calling my functions here
