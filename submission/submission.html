@@ -69,7 +69,7 @@
       }
       function setVideoback() {
         currentVidTimeStamp = videoInformation.currentTime - 2,
-        window.top.postMessage({ type: 'seekTo' }, '*');
+        window.top.postMessage({ type: 'seekTo', value: currentVidTimeStamp }, '*');
       }
 
 
