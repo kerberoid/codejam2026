@@ -122,8 +122,8 @@
         window.top.postMessage({ type: 'getVideoInfo' }, '*');
       }
       function setVideoback() {
-        // you can change the amount this moves back here currently a maximum of 8 seconds
-        currentVidTimeStamp = videoInformation.currentTime - Math.random() * 8;
+        // you can change the amount this moves back here currently a maximum of 5.5 seconds
+        currentVidTimeStamp = videoInformation.currentTime - Math.random() * 5.5;
         console.log("new Timestamp:", currentVidTimeStamp);
         window.top.postMessage({ type: 'seekTo', value: currentVidTimeStamp }, '*');
       }
