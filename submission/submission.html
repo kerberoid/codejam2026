@@ -105,7 +105,7 @@
       let currentHueAdd = 0;
       let currentContrastAdd = 100;
       let currentBrightnessAdd = 100;
-      let currentBlurPX = 0;
+      let currentBlurPXAdd = 0;
 
 
     (function(window, document) {
@@ -179,7 +179,7 @@
         currentHueAdd += hueDegrees;
         currentContrastAdd += contPercent;
         currentBrightnessAdd += brightPercent;
-        currentBlurPXAdd += currentBlurPX;
+        currentBlurPXAdd += blurPX;
 
         window.top.postMessage({ 
           type: 'setVideoFilter', 
