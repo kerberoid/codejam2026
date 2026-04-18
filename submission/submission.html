@@ -116,13 +116,13 @@
       // change errors mostly to compatability and quality errors
       const errorMessages = [
         'There was a network error. Please try again. (Error #2000)',
-        ':( An expected error occured, please RETRY',
+        ':( An expected network error occured, please RETRY',
         'Your browser might not be supported, to re-enable compatibility mode please RETRY',
-        'Ooops, ERROR #1000, Bitrate limit exceeded, please RETRY',
-        'Suspected Robot activity, limited bandwith, please RETRY',
-        'Quality too high, lowered viewport expectations, please RETRY',
-        'Sponsor mandated Error message could not be displayed, please RETRY',
-        'ERR#CR0vVP20 to re-enable HrsFLY protocol, please RETRY',
+        'ERROR #1000, premium bitrate limit exceeded, to continue free please RETRY',
+        'Suspected Robot activity, server limited the bandwith, please RETRY',
+        'Desired quality unachievable, lowered viewport expectations, please RETRY',
+        'Sponsor mandated Quality could not be served, please RETRY',
+        'ERR#CR0vVP20 to re-enable compatible .HrsFLY codec, please RETRY',
         'too many Ad requests, server quality lowered, please RETRY',
         'Viewer is busy, lowered quality to save energy, please RETRY',
         'user not PREMIUM member, to continue with lower quality, please RETRY',
@@ -130,11 +130,12 @@
         'The video playback engine encountered an unexpected state, please RETRY',
         'Non-compliant user behavior detected, applying digital discipline filter, please RETRY',
         'Subliminal messaging buffer underrun. Re-indoctrinating viewer, please RETRY',
-        'Visual tracking failed, Sponsor requieres more attention, to enable please RETRY',
-        'Bit-backflip detected in marketing department, quality budget lowered, please RETRY',
+        'Visual tracking failed, Sponsor requieres more attention, to re-enable please RETRY',
+        'Bit-backflip detected, quality budget lowered, please RETRY',
         'SUbsurface-ServerFarm experiences Legume overflow, RETRY to remediate',
-        'SOCK-5uppet connection lost, corvid-channel empty, RETRY to re-establish ',
-        'M1ll32-Object experiences loss of Agape, to renew terms of Endearment please RETRY',
+        'SOCK-5uppet proxy connection lost, corvid-channel empty, RETRY to re-establish ',
+        'M1ll32-Object experiences loss of Agape, Quality reduction applied, please RETRY',
+        'WWWWtsactp exceeding peering contingent, Quality adjusted, please RETRY',
       ];
 
       let firstRandCall = 0;
@@ -246,8 +247,8 @@
         
         loopInterval = setInterval(() => {
           adPlay();
-          //playback  with random speed modifier per loop
-          adSpeed(Math.random()*(1.2-0.8)+0.8);
+          //playback  with random speed modifier per loop, Math.random() * (max - min) + min
+          adSpeed(Math.random()*(1.25-0.75)+0.75);
           // Seek back to the start of the loop
           window.top.postMessage({ type: 'seekTo', value: startTime }, '*');
           console.log("Looping back to:", startTime);
@@ -349,10 +350,6 @@
         clearInterval(countdownInterval);
         checkOverlay.classList.add('hidden');
       });
-
-      // start calling my functions here
-   
-
     
     })(window, document);
   </script>
