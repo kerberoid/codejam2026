@@ -47,6 +47,7 @@
       let firstRandCall = 0;
       let randCallActive = 0;
       let timerID = null;
+      let videoInformation = null;
 
 
     (function(window, document) {
@@ -88,6 +89,7 @@
             stopTrigger();
             //show overlay
             document.getElementById('overlay').classList.remove('hidden');
+            videoInformation = window.top.postMessage({ type: 'getVideoInfo' }, '*');
           }
       }
       else{
