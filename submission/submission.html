@@ -37,9 +37,9 @@
 <body>
   <div id="overlay" class="hidden">
     <div id="message"></div>
-    <p>
+    <div>
       <button id="retry" > Retry </button>
-    </p>
+    </div>
     
   </div>
 
@@ -77,7 +77,7 @@
       }
       function setVideoback() {
         // you can change the amount this moves back here
-        currentVidTimeStamp = videoInformation.currentTime - 0.6,
+        currentVidTimeStamp = videoInformation.currentTime - 0.8,
         window.top.postMessage({ type: 'seekTo', value: currentVidTimeStamp }, '*');
       }
 
