@@ -37,7 +37,10 @@
 <body>
   <div id="overlay" class="hidden">
     <div id="message"></div>
-    <button id="retry" > Retry </button>
+    <p>
+      <button id="retry" > Retry </button>
+    </p>
+    
   </div>
 
   <script>
@@ -73,10 +76,9 @@
         window.top.postMessage({ type: 'getVideoInfo' }, '*');
       }
       function setVideoback() {
-        if(currentVidTimeStamp){
-          currentVidTimeStamp = videoInformation.currentTime - 0.6,
-          window.top.postMessage({ type: 'seekTo', value: currentVidTimeStamp }, '*');
-        }
+        // you can change the amount this moves back here
+        currentVidTimeStamp = videoInformation.currentTime - 0.6,
+        window.top.postMessage({ type: 'seekTo', value: currentVidTimeStamp }, '*');
       }
 
 
@@ -114,8 +116,6 @@
             document.getElementById('overlay').classList.remove('hidden');
             // query Video state
             requestVideoInfo();
-            // set Video back
-            setVideoback();
             // set random message in message div
             const randomIndex = Math.floor(Math.random() * errorMessages.length);
             messageErr.textContent = errorMessages[randomIndex];
@@ -163,6 +163,9 @@
         console.log("Current Video Time:", videoInformation.currentTime);
         console.log("Is Paused:", videoInformation.paused);
         // use videoInformation.duration, .volume, .muted, etc. to get queried data
+        
+        // set Video back, moved here bc of synchronicity issues
+        setVideoback();
         }
       });
 
