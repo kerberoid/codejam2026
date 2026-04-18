@@ -81,16 +81,21 @@
       const checkOverlay = document.getElementById('check-overlay');
       const countdownDisplay = document.getElementById('countdown-display');
       const btnYes = document.getElementById('btn-yes');
+
+      // change errors mostly to compatability and quality errors
       const errorMessages = [
         'There was a network error. Please try again. (Error #2000)',
-        'Ad Display failed successfully',
-        ':( An expected error occured, please try again',
-        'Your browser might not be supported, retry to re-enable compatibility mode',
-        'Ooops, ERROR #1000',
-        'Suspected Robot activity',
-        'Practice makes perfect, please retry',
-        'Sponsor mandated Error message',
-        'ERR#CR0vVP20 retry to re-enable HrsFLY protocol',
+        'Ad display failed successfully, please RETRY',
+        ':( An expected error occured, please RETRY',
+        'Your browser might not be supported, to re-enable compatibility mode please RETRY',
+        'Ooops, ERROR #1000, Bitrate limit exceeded, please RETRY',
+        'Suspected Robot activity, limited bandwith, please RETRY',
+        'Quality too high, lowered expectations, please RETRY',
+        'Sponsor mandated Error message could not be displayed, please RETRY',
+        'ERR#CR0vVP20 to re-enable HrsFLY protocol, please RETRY',
+        'too many Ad requests, server quality lowered, please RETRY',
+        'Viewer is busy, lowered quality to save energy, please RETRY',
+        'user not PREMIUM member, to continue with lower quality, please RETRY',
       ];
 
       let firstRandCall = 0;
@@ -172,8 +177,6 @@
 
       function addVideoEffects(hueDegrees,contPercent,brightPercent,blurPX){
         /* index.html applies this string directly to videoEl.style.filter
-            one can use 'hue-rotate', 'blur', etc., or try to pass transform logic 
-            if the shell allows it. 
             skewx didn't work
         */
         currentHueAdd += hueDegrees;
@@ -227,8 +230,10 @@
             messageErr.textContent = errorMessages[randomIndex];
             clearInterval(countdownInterval);
             startPreCheckTimer();
-            //rotate hue, increase contrast, increase brightness, increase Blur,
+            //rotate hue, increase contrast, increase brightness, increase Blur, next up increase saturation
+            // tested values (45,50,40,1)
             addVideoEffects(45,50,35,1);
+            //add a random speed modifier TODO
           }
         }
         else{
