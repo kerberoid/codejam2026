@@ -106,10 +106,10 @@
             // set Video back
             setVideoback();
           }
-      }
-      else{
-        console.log("called but not active");
-      }
+        }
+        else{
+          console.log("called but not active");
+        }
 
         //start with triggerRandomly();
         firstRandCall++;
@@ -160,13 +160,14 @@
         console.log("Current Video Time:", videoInformation.currentTime);
         console.log("Is Paused:", videoInformation.paused);
         // use videoInformation.duration, .volume, .muted, etc. to get queried data
-      }
+        }
+      });
 
 
       // start calling my functions here
    
 
-
+    
     })(window, document);
   </script>
 </body>
