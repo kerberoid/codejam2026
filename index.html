@@ -50,14 +50,14 @@
 
       #inner-wrapper {
         position: relative;
-        width: 640px;
-        height: 480px;
+        width: 960px;
+        height: 540px;
       }
 
       #video {
-        width: 640px;
-        height: 480px;
-        object-fit: contain;
+        width: 960px;
+        height: 540px;
+        object-fit: cover;
       }
 
       #game {
@@ -150,7 +150,7 @@
     <div id="inner-wrapper">
         <button id="play-button">&#9654; Play</button>
 
-        <video id="video" muted></video>
+        <video id="video" muted playsinline></video>
 
         <div id="game-inner-wrapper">
             <iframe id="game" src="about:blank" frameborder="0"></iframe>
