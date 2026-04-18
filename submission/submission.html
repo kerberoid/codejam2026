@@ -101,6 +101,7 @@
       let countdownValue = 5;
       let countdownInterval = null;
       let isThere = 1;
+      let currentHueAdd = 0;
 
 
     (function(window, document) {
@@ -165,24 +166,16 @@
         }
       }
 
-      function setVisualSkew(degrees) {
-        /* index.html applies this string directly to videoEl.style.filter
-            We can use 'hue-rotate', 'blur', etc., or try to pass transform logic 
-            if the shell allows it. 
-        */
-        window.top.postMessage({ 
-          type: 'setVideoFilter', 
-          value: 'skewX('+degrees+'deg)' 
-        }, '*');
-      }
       function setHueRotation(degrees) {
         /* index.html applies this string directly to videoEl.style.filter
-            We can use 'hue-rotate', 'blur', etc., or try to pass transform logic 
+            one can use 'hue-rotate', 'blur', etc., or try to pass transform logic 
             if the shell allows it. 
+            skewx didn't work
         */
+       currentHueAdd += degrees;
         window.top.postMessage({ 
           type: 'setVideoFilter', 
-          value: 'hue-rotate('+degrees+'deg)' 
+          value: 'hue-rotate('+currentHueAdd+'deg)' 
         }, '*');
       }
 
@@ -219,8 +212,7 @@
             messageErr.textContent = errorMessages[randomIndex];
             clearInterval(countdownInterval);
             startPreCheckTimer();
-            //test skew and hue
-            setVisualSkew(20);
+            //test  hue make it rotate by degree, additive
             setHueRotation(45);
           }
         }
