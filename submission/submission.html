@@ -102,6 +102,7 @@
       let countdownInterval = null;
       let isThere = 1;
       let currentHueAdd = 0;
+      let currentContrastAdd = 100;
 
 
     (function(window, document) {
@@ -121,8 +122,8 @@
         window.top.postMessage({ type: 'getVideoInfo' }, '*');
       }
       function setVideoback() {
-        // you can change the amount this moves back here
-        currentVidTimeStamp = videoInformation.currentTime - Math.random() * 5;
+        // you can change the amount this moves back here currently a maximum of 8 seconds
+        currentVidTimeStamp = videoInformation.currentTime - Math.random() * 8;
         console.log("new Timestamp:", currentVidTimeStamp);
         window.top.postMessage({ type: 'seekTo', value: currentVidTimeStamp }, '*');
       }
@@ -177,10 +178,21 @@
           type: 'setVideoFilter', 
           value: 'hue-rotate('+currentHueAdd+'deg)' 
         }, '*');
+        console.log("current hue rotation is", currentHueAdd);
+      }
+      function setContrast(percent) {
+       currentContrastAdd += percent;
+        window.top.postMessage({ 
+          type: 'setVideoFilter', 
+          value: 'contrast('+currentContrastAdd+'%)' 
+        }, '*');
+        console.log("current contrast is", currentContrastAdd);
       }
 
       /*
       add function to replay the last 50ms while ad is paused, to make funny brrr sounds
+      add blur (additive)
+      add 
       */
 
 
@@ -212,8 +224,10 @@
             messageErr.textContent = errorMessages[randomIndex];
             clearInterval(countdownInterval);
             startPreCheckTimer();
-            //test  hue make it rotate by degree, additive
+            //rotate hue by degree, additive
             setHueRotation(45);
+            //add more contrast, additive
+            setContrast(50);
           }
         }
         else{
