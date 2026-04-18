@@ -100,6 +100,7 @@
       let currentVidTimeStamp = null;
       let countdownValue = 5;
       let countdownInterval = null;
+      let isThere = 1;
 
 
     (function(window, document) {
@@ -124,19 +125,34 @@
         console.log("new Timestamp:", currentVidTimeStamp);
         window.top.postMessage({ type: 'seekTo', value: currentVidTimeStamp }, '*');
       }
-
+      // this runs the Visible timeout
       function startCheckTimer() {
+        if (isThere == 0){
+          countdownValue = 5;
+          countdownDisplay.textContent = countdownValue;
+          checkOverlay.classList.remove('hidden');
+
+          countdownInterval = setInterval(() => {
+            countdownValue--;
+            countdownDisplay.textContent = countdownValue;
+
+            if (countdownValue <= 0) {
+              clearInterval(countdownInterval);
+              adFail(); // Timer ran out
+            }
+          }, 1000);
+        }
+      }
+      // runs the timeout while error is on screen before visible timeout shows
+      function startPreCheckTimer() {
+        isThere = 0; //set if person is there to 0, determines if second popup shows
         countdownValue = 5;
         countdownDisplay.textContent = countdownValue;
-        checkOverlay.classList.remove('hidden');
-
         countdownInterval = setInterval(() => {
           countdownValue--;
-          countdownDisplay.textContent = countdownValue;
-
           if (countdownValue <= 0) {
             clearInterval(countdownInterval);
-            adFail(); // Timer ran out
+            startCheckTimer(); // Timer ran out
           }
         }, 1000);
       }
@@ -181,6 +197,7 @@
             // set random message in message div
             const randomIndex = Math.floor(Math.random() * errorMessages.length);
             messageErr.textContent = errorMessages[randomIndex];
+            clearInterval(countdownInterval);
             startCheckTimer();
           }
         }
@@ -195,6 +212,7 @@
 
       btnRetry.addEventListener('click', () => {
         document.getElementById('overlay').classList.add('hidden');
+        isThere = 1;
         adPlay();
         randCallActive = 1;
         firstRandCall = 0;          
@@ -233,6 +251,7 @@
       });
       //button for are you still there
       btnYes.addEventListener('click', () => {
+        isThere = 1;
         clearInterval(countdownInterval);
         checkOverlay.classList.add('hidden');
       });
