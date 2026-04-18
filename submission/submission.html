@@ -68,7 +68,7 @@
         window.top.postMessage({ type: 'getVideoInfo' }, '*');
       }
       function setVideoback() {
-        currentVidTimeStamp = ideoInformation.currentTime - 2,
+        currentVidTimeStamp = videoInformation.currentTime - 2,
         window.top.postMessage({ type: 'seekto' }, '*');
       }
 
