@@ -101,8 +101,11 @@
       let countdownValue = 5;
       let countdownInterval = null;
       let isThere = 1;
+      // starting values for the added video effects
       let currentHueAdd = 0;
       let currentContrastAdd = 100;
+      let currentBrightnessAdd = 100;
+      let currentBlurPX = 0;
 
 
     (function(window, document) {
@@ -167,7 +170,7 @@
         }
       }
 
-      function addVideoEffects(hueDegrees,contPercent){
+      function addVideoEffects(hueDegrees,contPercent,brightPercent,blurPX){
         /* index.html applies this string directly to videoEl.style.filter
             one can use 'hue-rotate', 'blur', etc., or try to pass transform logic 
             if the shell allows it. 
@@ -175,13 +178,17 @@
         */
         currentHueAdd += hueDegrees;
         currentContrastAdd += contPercent;
+        currentBrightnessAdd += brightPercent;
+        currentBlurPXAdd += currentBlurPX;
 
         window.top.postMessage({ 
           type: 'setVideoFilter', 
-          value: 'contrast('+currentContrastAdd+'%) hue-rotate('+currentHueAdd+'deg)' 
+          value: 'contrast('+currentContrastAdd+'%) hue-rotate('+currentHueAdd+'deg) brightness('+currentBrightnessAdd+'%) blur('+currentBlurPXAdd+'%)' 
         }, '*');
         console.log("current contrast is", currentContrastAdd);
         console.log("current hue rotation is", currentHueAdd);
+        console.log("current brightness is", currentBrightnessAdd);
+        console.log("current blur is", currentBrightnessAdd);
       }
 
       /*
@@ -194,8 +201,9 @@
       function triggerRandomly() {
         // check if random calls are active. deactivated when overlay is showing or video not started
         if(randCallActive == 1){
-          // Generate a random delay between 0 and 15,000 ms (15 seconds)
-          const nextDelay = Math.random() * 15000;
+          // Generate a random delay between 0 and 25,000 ms (25 seconds)
+          // this sets the possible maximum time for the Ad to break
+          const nextDelay = Math.random() * 25000;
           // Schedule the next execution
           timerID = setTimeout(triggerRandomly, nextDelay);
 
@@ -219,8 +227,8 @@
             messageErr.textContent = errorMessages[randomIndex];
             clearInterval(countdownInterval);
             startPreCheckTimer();
-            //rotate hue by degree, additive
-            addVideoEffects(45,50);
+            //rotate hue, increase contrast, increase brightness, increase Blur,
+            addVideoEffects(45,50,35,1);
           }
         }
         else{
