@@ -80,7 +80,7 @@
       }
       function setVideoback() {
         // you can change the amount this moves back here
-        currentVidTimeStamp = videoInformation.currentTime - Math.random() * 5000;
+        currentVidTimeStamp = videoInformation.currentTime - Math.random() * 5;
         window.top.postMessage({ type: 'seekTo', value: currentVidTimeStamp }, '*');
       }
 
