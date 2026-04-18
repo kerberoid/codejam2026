@@ -89,7 +89,8 @@
             stopTrigger();
             //show overlay
             document.getElementById('overlay').classList.remove('hidden');
-            videoInformation = window.top.postMessage({ type: 'getVideoInfo' }, '*');
+            //get video info
+            window.top.postMessage({ type: 'getVideoInfo' }, '*');
           }
       }
       else{
@@ -133,6 +134,13 @@
           console.log("Video Playing"); 
           randCallActive = 1;  
           triggerRandomly();  
+        }
+      });
+
+      window.addEventListener('message', (event) => {
+        // When Video starts start the error timer
+        if (event.data && event.data.type === 'getVideoInfo') {
+          videoInformation = event.data
         }
       });
 
