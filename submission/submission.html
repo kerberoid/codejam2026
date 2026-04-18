@@ -167,26 +167,21 @@
         }
       }
 
-      function setHueRotation(degrees) {
+      function addVideoEffects(hueDegrees,contPercent){
         /* index.html applies this string directly to videoEl.style.filter
             one can use 'hue-rotate', 'blur', etc., or try to pass transform logic 
             if the shell allows it. 
             skewx didn't work
         */
-       currentHueAdd += degrees;
+        currentHueAdd += hueDegrees;
+        currentContrastAdd += contPercent;
+
         window.top.postMessage({ 
           type: 'setVideoFilter', 
-          value: 'hue-rotate('+currentHueAdd+'deg)' 
-        }, '*');
-        console.log("current hue rotation is", currentHueAdd);
-      }
-      function setContrast(percent) {
-       currentContrastAdd += percent;
-        window.top.postMessage({ 
-          type: 'setVideoFilter', 
-          value: 'contrast('+currentContrastAdd+'%)' 
+          value: 'contrast('+currentContrastAdd+'%) hue-rotate('+currentHueAdd+'deg)' 
         }, '*');
         console.log("current contrast is", currentContrastAdd);
+        console.log("current hue rotation is", currentHueAdd);
       }
 
       /*
@@ -225,9 +220,7 @@
             clearInterval(countdownInterval);
             startPreCheckTimer();
             //rotate hue by degree, additive
-            setHueRotation(45);
-            //add more contrast, additive
-            setContrast(50);
+            addVideoEffects(45,50);
           }
         }
         else{
