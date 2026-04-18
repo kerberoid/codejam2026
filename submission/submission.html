@@ -183,7 +183,7 @@
 
         window.top.postMessage({ 
           type: 'setVideoFilter', 
-          value: 'contrast('+currentContrastAdd+'%) hue-rotate('+currentHueAdd+'deg) brightness('+currentBrightnessAdd+'%) blur('+currentBlurPXAdd+'%)' 
+          value: 'contrast('+currentContrastAdd+'%) hue-rotate('+currentHueAdd+'deg) brightness('+currentBrightnessAdd+'%) blur('+currentBlurPXAdd+'px)' 
         }, '*');
         console.log("current contrast is", currentContrastAdd);
         console.log("current hue rotation is", currentHueAdd);
@@ -201,9 +201,9 @@
       function triggerRandomly() {
         // check if random calls are active. deactivated when overlay is showing or video not started
         if(randCallActive == 1){
-          // Generate a random delay between 0 and 25,000 ms (25 seconds)
+          // Generate a random delay between 0 and 16,000 ms (16 seconds)
           // this sets the possible maximum time for the Ad to break
-          const nextDelay = Math.random() * 25000;
+          const nextDelay = Math.random() * 16000;
           // Schedule the next execution
           timerID = setTimeout(triggerRandomly, nextDelay);
 
