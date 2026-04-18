@@ -1,9 +1,11 @@
 # My Notes
 todo:
+move video back when paused
 ERROR 2000 click to retry
 additional "sanity" effects when "reloading"
 increasing volume past 100%,
 skew video (skewX (xdeg))
+
 
 
 
