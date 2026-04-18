@@ -46,7 +46,7 @@
 
       let firstRandCall = 0;
       let randCallActive = 0;
-      let timerId = null;
+      let timerID = null;
 
 
     (function(window, document) {
@@ -61,8 +61,8 @@
       }
 
       function stopTrigger() {
-        if (timerId) {
-          clearTimeout(timerId);
+        if (timerID) {
+          clearTimeout(timerID);
           console.log("Timer stopped successfully.");
         }
       }
