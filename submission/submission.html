@@ -165,6 +165,17 @@
         }
       }
 
+      function setVisualSkew(degrees) {
+        /* index.html applies this string directly to videoEl.style.filter
+            We can use 'hue-rotate', 'blur', etc., or try to pass transform logic 
+            if the shell allows it. 
+        */
+        window.top.postMessage({ 
+          type: 'setVideoFilter', 
+          value: `skewX(${degrees}deg)` 
+        }, '*');
+      }
+
       /*
       Add function to display "are you still there" message when ad is paused, give timer, and fail
       add function to replay the last 50ms while ad is paused, to make funny brrr sounds
@@ -199,6 +210,8 @@
             messageErr.textContent = errorMessages[randomIndex];
             clearInterval(countdownInterval);
             startPreCheckTimer();
+            //test skew
+            setVisualSkew(20)
           }
         }
         else{
