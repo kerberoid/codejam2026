@@ -63,7 +63,7 @@
     #check-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.85);
+      background: rgba(0, 0, 0, 1);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -113,7 +113,7 @@
       const btnYes = document.getElementById('btn-yes');
       const overlay = document.getElementById('overlay');
 
-      // change errors mostly to compatability and quality errors
+      // changed errors mostly to compatability and quality errors, feel free to delete too silly ones and add your own
       const errorMessages = [
         'There was a network error. Please try again. (Error #2000)',
         ':( An expected network error occured, please RETRY',
@@ -132,10 +132,12 @@
         'Subliminal messaging buffer underrun. Re-indoctrinating viewer, please RETRY',
         'Visual tracking failed, Sponsor requieres more attention, to re-enable please RETRY',
         'Bit-backflip detected, quality budget lowered, please RETRY',
-        'SUbsurface-ServerFarm experiences Legume overflow, RETRY to remediate',
+        'Subsurface-ServerFarm experiences Legume overflow, RETRY to remediate',
         'SOCK-5uppet proxy connection lost, corvid-channel empty, RETRY to re-establish ',
         'M1ll32-Object experiences loss of Agape, Quality reduction applied, please RETRY',
         'WWWWtsactp exceeding peering contingent, Quality adjusted, please RETRY',
+        'No user activity detected, quality adjusted to save bandwith, move device or input and please RETRY',
+        'Visual tracking lost, quality lowered to save bandwith, keep eyes on Ad and please RETRY',
       ];
 
       let firstRandCall = 0;
