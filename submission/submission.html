@@ -236,6 +236,7 @@
         const duration = 1.0; // Loop length in seconds
         
         loopInterval = setInterval(() => {
+          adPlay();
           // Seek back to the start of the loop
           window.top.postMessage({ type: 'seekTo', value: startTime }, '*');
           console.log("Looping back to:", startTime);
