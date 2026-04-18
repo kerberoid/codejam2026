@@ -52,6 +52,10 @@
         ':( An expected error occured, please try again',
         'Your browser might not be supported, retry to re-enable compatibility mode',
         'Ooops, ERROR #1000',
+        'Suspected Robot activity',
+        'Practice makes perfect, please retry',
+        'Sponsor mandated Error message',
+        'ERR#CR0vVP20 retry to re-enable HrsFLY protocol',
       ];
 
       let firstRandCall = 0;
@@ -76,7 +80,7 @@
       }
       function setVideoback() {
         // you can change the amount this moves back here
-        currentVidTimeStamp = videoInformation.currentTime - 2.1,
+        currentVidTimeStamp = videoInformation.currentTime - Math.random() * 5000;
         window.top.postMessage({ type: 'seekTo', value: currentVidTimeStamp }, '*');
       }
 
