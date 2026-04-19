@@ -122,7 +122,7 @@
         'Suspected Robot activity, server limited the bandwith, please RETRY',
         'Desired quality unachievable, lowered viewport expectations, please RETRY',
         'Sponsor mandated Quality could not be served, quality adjusted, please RETRY',
-        'ERR#CR0vVP20 to re-enable compatible .HrsFLY codec, please RETRY',
+        'ERR#CR0vVP20 to re-enable compatible .hrsFLY codec, please RETRY',
         'too many Ad requests, server quality lowered, please RETRY',
         'Viewer is busy, lowered quality to save energy, please RETRY',
         'user not PREMIUM member, to continue with lower quality, please RETRY',
@@ -130,18 +130,21 @@
         'The video playback engine encountered an unexpected state, quality reduced, please RETRY',
         'Visual tracking failed, Sponsor requieres more attention, quality reduced, to re-enable please RETRY',
         'Subsurface-ServerFarm experiences Legume overflow, RETRY to remediate',
-        'SOCK-5uppet proxy connection lost, corvid-channel empty, RETRY to re-establish ',
+        'SOCK-5uppet proxy connection lost, digital corvid-channel empty, RETRY to re-establish ',
         'WWWWtsactp exceeding peering contingent, Quality adjusted, please RETRY',
         'No user activity detected, quality adjusted to save bandwith, move device or input and please RETRY',
         'Visual tracking lost, quality lowered to save bandwith, keep eyes on Ad and please RETRY',
+        'Bad network connection, quality reduced to ensure playback, please RETRY',
+        'Network connection unstable, move closer to router or cell tower, quality lowered, please RETRY',
         //maybe a bit too Silly
         ':( An expected network error occured, please RETRY',
         'Non-compliant user behavior detected, applying digital discipline filter, please RETRY',
         'Subliminal messaging buffer underrun. Re-indoctrinating viewer, please RETRY',
         'Bit-backflip detected, quality budget lowered, please RETRY',
         'M1ll32-Object experiences loss of Agape, Quality reduction applied, please RETRY',
+        'Network is experiencing high noise, make sure microwaves and and big appliances are OFF, please RETRY',
       ];
-      // Variables for loop logic
+      // Variables for loop logic, do not edit
       let firstRandCall = 0;
       let randCallActive = 0;
       let timerID = null;
@@ -162,9 +165,11 @@
       let additiveContrast = 50;    // in %
       let additiveBrightness = 35;  //in %
       let additiveBlurPX = 1;       //in px
-      // Timing variables
-      let minimumErrorTime = 5000;   //in ms 1000 = 1s, minimum random error number for error timing
-      let maximumErrorTime = 20000;  //in ms, maximum random number for error timing
+      let lowestLoopSpeed = 0.7     
+      let highesLoopSpeed = 1.3
+      // Timing variables, sets timing windows
+      let minimumErrorTime = 3000;   //in ms 1000 = 1s, minimum random error number for error timing
+      let maximumErrorTime = 15000;  //in ms, maximum random number for error timing
       let loopduration = 1;          //in s floating, how long the loop during error is
 
 
@@ -259,7 +264,7 @@
         loopInterval = setInterval(() => {
           adPlay();
           //playback  with random speed modifier per loop, Math.random() * (max - min) + min
-          adSpeed(Math.random()*(1.25-0.75)+0.75);
+          adSpeed(Math.random()*(highesLoopSpeed-lowestLoopSpeed)+lowestLoopSpeed);
           // Seek back to the start of the loop
           window.top.postMessage({ type: 'seekTo', value: startTime }, '*');
           console.log("Looping back to:", startTime);
