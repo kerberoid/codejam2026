@@ -118,17 +118,17 @@
         //normal
         'There was a network error. Please try again. (Error #2000)',
         'Your browser might not be supported, to re-enable compatibility mode please RETRY',
-        'ERROR #1000, premium bitrate limit exceeded, to continue free please RETRY',
+        'ERROR #1000, premium bitrate limit exceeded, quality lowered, to continue free please RETRY',
         'Suspected Robot activity, server limited the bandwith, please RETRY',
         'Desired quality unachievable, lowered viewport expectations, please RETRY',
-        'Sponsor mandated Quality could not be served, please RETRY',
+        'Sponsor mandated Quality could not be served, quality adjusted, please RETRY',
         'ERR#CR0vVP20 to re-enable compatible .HrsFLY codec, please RETRY',
         'too many Ad requests, server quality lowered, please RETRY',
         'Viewer is busy, lowered quality to save energy, please RETRY',
         'user not PREMIUM member, to continue with lower quality, please RETRY',
         'Hardware acceleration error: Compatibility mode required, please RETRY',
-        'The video playback engine encountered an unexpected state, please RETRY',
-        'Visual tracking failed, Sponsor requieres more attention, to re-enable please RETRY',
+        'The video playback engine encountered an unexpected state, quality reduced, please RETRY',
+        'Visual tracking failed, Sponsor requieres more attention, quality reduced, to re-enable please RETRY',
         'Subsurface-ServerFarm experiences Legume overflow, RETRY to remediate',
         'SOCK-5uppet proxy connection lost, corvid-channel empty, RETRY to re-establish ',
         'WWWWtsactp exceeding peering contingent, Quality adjusted, please RETRY',
@@ -141,7 +141,7 @@
         'Bit-backflip detected, quality budget lowered, please RETRY',
         'M1ll32-Object experiences loss of Agape, Quality reduction applied, please RETRY',
       ];
-
+      // Variables for loop logic
       let firstRandCall = 0;
       let randCallActive = 0;
       let timerID = null;
@@ -151,11 +151,21 @@
       let countdownInterval = null;
       let isThere = 1;
       let loopInterval = null;
-      // starting values for the added video effects
+      // starting values for the video effects
       let currentHueAdd = 0;
       let currentContrastAdd = 100;
       let currentBrightnessAdd = 100;
       let currentBlurPXAdd = 0;
+      // how much effect per error gets added, feel free to edit
+      // tested values (45,50,35,1)
+      let additiveHue = 45;         //in %
+      let additiveContrast = 50;    // in %
+      let additiveBrightness = 35;  //in %
+      let additiveBlurPX = 1;       //in px
+      // Timing variables
+      let minimumErrorTime = 5000   //in ms 1000 = 1s, minimum random error number for error timing
+      let maximumErrorTime = 20000  //in ms, maximum random number for error timing
+      let loopduration = 1          //in s floating, how long the loop during error is
 
 
     (function(window, document) {
@@ -246,9 +256,6 @@
         clearInterval(loopInterval);
         loopInterval = null;
         console.log("Loop cleared");
-
-        const duration = 1.0; // Loop length in seconds
-        
         loopInterval = setInterval(() => {
           adPlay();
           //playback  with random speed modifier per loop, Math.random() * (max - min) + min
@@ -256,7 +263,7 @@
           // Seek back to the start of the loop
           window.top.postMessage({ type: 'seekTo', value: startTime }, '*');
           console.log("Looping back to:", startTime);
-        }, duration * 1000);
+        }, loopduration * 1000);
       }
 
       function triggerRandomly() {
@@ -264,10 +271,9 @@
         if(randCallActive == 1){
           // Generate a random delay between 0 and the number in ms 
           // this sets the possible maximum time for the Ad to break
-          const nextDelay = Math.random() * 17000; //1000 = 1s
+          const nextDelay = Math.random() * (maximumErrorTime - minimumErrorTime) + minimumErrorTime; //1000 = 1s
           // Schedule the next execution
           timerID = setTimeout(triggerRandomly, nextDelay);
-
           // when the first call gets triggered ignore to prevent going back too much
           if(firstRandCall < 1){
             console.log("next will trigger");
@@ -279,7 +285,6 @@
             adPause();
             //stop trigger from firing while paused
             stopTrigger();
-            
             // query Video state
             requestVideoInfo();
             // set random message in error Card
@@ -291,24 +296,20 @@
             clearInterval(countdownInterval);
             // start pretimeout timer
             startPreCheckTimer();
-            //rotate hue, increase contrast, increase brightness, increase Blur, next up increase saturation
-            // tested values (45,50,35,1)
-            addVideoEffects(45,50,35,1);
-            //add a random speed modifier TODO
+            //rotate hue, increase contrast, increase brightness, increase Blur
+            addVideoEffects(additiveHue,additiveContrast,additiveBrightness,additiveBlurPX);
           }
         }
         else{
           console.log("called but not active");
         }
-
         //start with triggerRandomly();
         firstRandCall++;
       }
 
-
       btnRetry.addEventListener('click', () => {
         document.getElementById('overlay').classList.add('hidden');
-        isThere = 1;
+        isThere = 1; 
         adPlay();
         randCallActive = 1;
         firstRandCall = 0;          
