@@ -67,21 +67,54 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      z-index: 3000;
+      font-family: 'Roboto', sans-serif;
+    }
+    #check-card {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-top: 4px solid #ffcc00; /* Warning Yellow */
+      padding: 40px;
+      width: 90%;
+      max-width: 350px;
       text-align: center;
-      z-index: 2000;
-      color: white;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+    }
+    #check-card h2 {
+      color: #ffffff;
+      font-size: 20px;
+      margin: 0 0 10px 0;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    #check-card p {
+      color: #aaaaaa;
+      font-size: 14px;
+      margin-bottom: 20px;
     }
 
     #countdown-display {
-      font-size: 48px;
-      margin: 20px 0;
+      font-size: 72px;
+      font-weight: 900;
       color: #ffcc00;
+      margin: 10px 0 30px 0;
+      font-variant-numeric: tabular-nums; /* Prevents jumping as numbers change */
     }
 
     #btn-yes {
-      padding: 10px 30px;
-      font-size: 18px;
+      background: transparent;
+      color: #ffcc00;
+      border: 2px solid #ffcc00;
+      padding: 12px 40px;
+      font-size: 14px;
+      font-weight: bold;
+      text-transform: uppercase;
       cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    #btn-yes:hover {
+      background: #ffcc00;
+      color: #1a1a1a;
     }
 
     .hidden { display: none !important; }
@@ -89,13 +122,14 @@
 </head>
 <body>
 
-  <div id="check-overlay" class="hidden">
-    <div id="check-content">
-      <h2>Are you still there?</h2>
-      <div id="countdown-display">5</div>
-      <button id="btn-yes">Yes</button>
-    </div>
+<div id="check-overlay" class="hidden">
+  <div id="check-card">
+    <h2>User Inactivity</h2>
+    <p>Are you still there?</p>
+    <div id="countdown-display">5</div>
+    <button id="btn-yes">I am here</button>
   </div>
+</div>
 
 <div id="overlay" class="hidden">
   <div id="error-card">
@@ -167,7 +201,7 @@
       let additiveBlurPX = 1;       //in px
       let lowestLoopSpeed = 0.7     
       let highesLoopSpeed = 1.3
-      // Timing variables, sets timing windows
+      // Timing variables, sets timing windows for when errors occur, feel free to edit
       let minimumErrorTime = 3000;   //in ms 1000 = 1s, minimum random error number for error timing
       let maximumErrorTime = 15000;  //in ms, maximum random number for error timing
       let loopduration = 1;          //in s floating, how long the loop during error is
@@ -354,11 +388,13 @@
         runLoopLogic(currentVidTimeStamp);
         }
       });
+
       //button for are you still there
       btnYes.addEventListener('click', () => {
         isThere = 1;
         clearInterval(countdownInterval);
         checkOverlay.classList.add('hidden');
+        console.log("Activity confirmed by user.");
       });
     
     })(window, document);
