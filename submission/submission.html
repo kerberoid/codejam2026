@@ -314,6 +314,20 @@
         console.log("current blur is", currentBlurPXAdd);
       }
 
+      function dimVideo() {
+        window.top.postMessage({ 
+          type: 'setVideoFilter', 
+          value: 'contrast('+currentContrastAdd+'%) hue-rotate('+currentHueAdd+'deg) brightness(100%) blur('+currentBlurPXAdd+'px)' 
+        }, '*');
+      }
+
+      function undimVideo() {
+        window.top.postMessage({ 
+          type: 'setVideoFilter', 
+          value: 'contrast('+currentContrastAdd+'%) hue-rotate('+currentHueAdd+'deg) brightness('+currentBrightnessAdd+'%) blur('+currentBlurPXAdd+'px)' 
+        }, '*');
+      }
+
       function runLoopLogic(startTime) {
         //remove existing data
         clearInterval(loopInterval);
@@ -373,7 +387,7 @@
       btnRetry.addEventListener('click', () => {
         document.getElementById('overlay').classList.add('hidden');
         document.getElementById('loading-area').classList.remove('hidden');
-        addVideoEffects(additiveHue,additiveContrast,50,additiveBlurPX);
+        dimVideo();
         isThere = 1; 
         /*
         randCallActive = 1;
@@ -388,7 +402,7 @@
         const reconnectTime = Math.random() * (3500 - 1500) + 1500;
 
         setTimeout(() => {
-          addVideoEffects(additiveHue,additiveContrast,additiveBrightness,additiveBlurPX);
+          undimVideo();
           document.getElementById('loading-area').classList.add('hidden');
           adPlay();
           randCallActive = 1;
