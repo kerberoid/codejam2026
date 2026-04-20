@@ -299,9 +299,6 @@
       }
 
       function addVideoEffects(hueDegrees,contPercent,brightPercent,blurPX){
-        /* index.html applies this string directly to videoEl.style.filter
-            skewx didn't work
-        */
         currentHueAdd += hueDegrees;
         currentContrastAdd += contPercent;
         currentBrightnessAdd += brightPercent;
@@ -384,8 +381,9 @@
         */
         clearInterval(loopInterval); //clear loop timer
         adPause();
-
+        window.top.postMessage({ type: 'pause', value: 'opacity(40%) greyscale(100%)' }, '*');
         //simulate "Reconnecting" delay before starting again
+        
         const reconnectTime = Math.random() * (3500 - 1500) + 1500;
 
         setTimeout(() => {
@@ -394,7 +392,7 @@
           randCallActive = 1;
           firstRandCall = 0;          
           triggerRandomly();  
-          console.log("Connection restored after " + Math.round(reconnectTime) + "ms");
+
         }, reconnectTime);
 
       });
