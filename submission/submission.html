@@ -373,6 +373,7 @@
       btnRetry.addEventListener('click', () => {
         document.getElementById('overlay').classList.add('hidden');
         document.getElementById('loading-area').classList.remove('hidden');
+        window.top.postMessage({ type: 'setVideoFilter', value: 'greyscale(100%) brightness(10%)' }, '*');
         isThere = 1; 
         /*
         randCallActive = 1;
@@ -381,7 +382,7 @@
         */
         clearInterval(loopInterval); //clear loop timer
         adPause();
-        window.top.postMessage({ type: 'setVideoFilter', value: 'opacity(40%) greyscale(100%)' }, '*');
+
         //simulate "Reconnecting" delay before starting again
 
         const reconnectTime = Math.random() * (3500 - 1500) + 1500;
