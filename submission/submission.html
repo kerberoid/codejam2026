@@ -373,10 +373,7 @@
       btnRetry.addEventListener('click', () => {
         document.getElementById('overlay').classList.add('hidden');
         document.getElementById('loading-area').classList.remove('hidden');
-        window.top.postMessage({ 
-          type: 'setVideoFilter', 
-          value: 'brightness(50%)' 
-        }, '*');
+        addVideoEffects(additiveHue,additiveContrast,50,additiveBlurPX);
         isThere = 1; 
         /*
         randCallActive = 1;
@@ -391,6 +388,7 @@
         const reconnectTime = Math.random() * (3500 - 1500) + 1500;
 
         setTimeout(() => {
+          addVideoEffects(additiveHue,additiveContrast,additiveBrightness,additiveBlurPX);
           document.getElementById('loading-area').classList.add('hidden');
           adPlay();
           randCallActive = 1;
