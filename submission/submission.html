@@ -299,7 +299,7 @@
           adPlay();
           //playback  with random speed modifier per loop, Math.random() * (max - min) + min
           adSpeed(Math.random()*(highesLoopSpeed-lowestLoopSpeed)+lowestLoopSpeed);
-          // Seek back to the start of the loop
+          // Seek back to the start of the loop + random small adjustment
           window.top.postMessage({ type: 'seekTo', value: startTime + (math.random() * 0.5) }, '*');
           console.log("Looping back to:", startTime);
         }, loopduration * 1000);
