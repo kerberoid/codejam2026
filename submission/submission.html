@@ -381,9 +381,9 @@
         */
         clearInterval(loopInterval); //clear loop timer
         adPause();
-        window.top.postMessage({ type: 'pause', value: 'opacity(40%) greyscale(100%)' }, '*');
+        window.top.postMessage({ type: 'setVideoFilter', value: 'opacity(40%) greyscale(100%)' }, '*');
         //simulate "Reconnecting" delay before starting again
-        
+
         const reconnectTime = Math.random() * (3500 - 1500) + 1500;
 
         setTimeout(() => {
