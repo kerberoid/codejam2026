@@ -384,12 +384,11 @@
         */
         clearInterval(loopInterval); //clear loop timer
         adPause();
-        
+
         //simulate "Reconnecting" delay before starting again
         const reconnectTime = Math.random() * (2000 - 500) + 500;
 
         setTimeout(() => {
-          window.top.postMessage({ type: 'setVideoFilter', value: 'none' }, '*');
           document.getElementById('loading-area').classList.add('hidden');
           adPlay();
           randCallActive = 1;
