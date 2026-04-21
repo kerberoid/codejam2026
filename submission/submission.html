@@ -198,7 +198,7 @@
     <div class="bar"></div>
     <div class="bar"></div>
     <div class="bar"></div>
-    <span id="signal-text">4G+ Stable</span>
+    <span id="signal-text">Network stable</span>
   </div>
 
 <div id="check-overlay" class="hidden">
@@ -363,10 +363,10 @@
       function updateSignal(status) {
         if (status === 'good') {
           signalContainer.className = 'signal-good';
-          signalText.textContent = '4G+ Stable';
+          signalText.textContent = 'Network stable';
         } else {
           signalContainer.className = 'signal-bad';
-          signalText.textContent = 'Edge - Poor';
+          signalText.textContent = 'Network recovering';
         }
       }
 
