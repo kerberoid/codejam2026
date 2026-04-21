@@ -243,6 +243,7 @@
       let minimumErrorTime = 5000;   //in ms 1000 = 1s, minimum random error number for error timing
       let maximumErrorTime = 15000;  //in ms, maximum random number for error timing
       let loopduration = 0.75;          //in s floating, how long the loop during error is
+      let freezeLoopduration = 0.1;          //in s floating, how long the loop during freeze on reconnect is
 
 
     (function(window, document) {
@@ -354,6 +355,19 @@
         }, loopduration * 1000);
       }
 
+      function runFreezeLoopLogic(startTime) {
+        //remove existing data
+        clearInterval(loopInterval);
+        loopInterval = null;
+        console.log("Loop cleared");
+        loopInterval = setInterval(() => {
+          adPlay();
+          // Seek back to the start of the loop + random small adjustment
+          window.top.postMessage({ type: 'seekTo', value: startTime }, '*');
+          console.log("Looping back to:", startTime);
+        }, freezeLoopduration * 1000);
+      }
+
       function triggerRandomly() {
         // check if random calls are active. deactivated when overlay is showing or video not started
         if(randCallActive == 1){
@@ -400,19 +414,18 @@
         document.getElementById('loading-area').classList.remove('hidden');
         dimVideo();
         isThere = 1; 
-        /*
-        randCallActive = 1;
-        firstRandCall = 0;          
-        triggerRandomly();
-        */
         clearInterval(loopInterval); //clear loop timer
         adPause();
 
         //simulate "Reconnecting" delay before starting again
-
+        //set time constraint for reconnect
         const reconnectTime = Math.random() * (5000 - 1500) + 1500;
 
+        //make noise go brrrr
+        runFreezeLoopLogic(currentVidTimeStamp);
+
         setTimeout(() => {
+          clearInterval(loopInterval); //clear loop timer
           undimVideo();
           document.getElementById('loading-area').classList.add('hidden');
           adPlay();
