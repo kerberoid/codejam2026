@@ -14,6 +14,44 @@
       background: transparent;
     }
 
+    #signal-container {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      display: flex;
+      align-items: flex-end;
+      gap: 3px;
+      padding: 8px;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 4px;
+      z-index: 5000;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    .bar {
+      width: 4px;
+      background: #666; 
+      border-radius: 1px;
+      transition: height 0.3s, background 0.3s;
+    }
+
+    .bar:nth-child(1) { height: 6px; }
+    .bar:nth-child(2) { height: 10px; }
+    .bar:nth-child(3) { height: 14px; }
+    .bar:nth-child(4) { height: 18px; }
+
+    .signal-good .bar { background: #4CAF50; }
+    .signal-bad .bar:nth-child(1) { background: #d93025; }
+    .signal-bad .bar:nth-child(n+2) { background: #444; }
+
+    #signal-text {
+      font-size: 10px;
+      color: #aaa;
+      margin-left: 5px;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+
     #overlay {
       position: fixed;
       inset: 0;
@@ -155,6 +193,14 @@
 </head>
 <body>
 
+  <div id="signal-container" class="signal-good">
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <span id="signal-text">4G+ Stable</span>
+  </div>
+
 <div id="check-overlay" class="hidden">
   <div id="check-card">
     <h2>User Inactivity</h2>
@@ -185,6 +231,8 @@
       const btnYes = document.getElementById('btn-yes');
       const overlay = document.getElementById('overlay');
       const loadingArea = document.getElementById('loading-area');
+      const signalContainer = document.getElementById('signal-container');
+      const signalText = document.getElementById('signal-text');
 
       // changed errors mostly to compatability and quality errors, feel free to delete too silly ones and add your own
       const errorMessages = [
@@ -312,6 +360,16 @@
         }
       }
 
+      function updateSignal(status) {
+        if (status === 'good') {
+          signalContainer.className = 'signal-good';
+          signalText.textContent = '4G+ Stable';
+        } else {
+          signalContainer.className = 'signal-bad';
+          signalText.textContent = 'Edge - Poor';
+        }
+      }
+
       function addVideoEffects(hueDegrees,contPercent,brightPercent,blurPX,saturationPercent){
         currentHueAdd += hueDegrees;
         currentContrastAdd += contPercent;
@@ -388,6 +446,8 @@
             console.log("Function triggered at:", new Date().toLocaleTimeString());
             randCallActive = 0;
             adPause();
+            //change connection symbol to bad
+            updateSignal('bad');
             //stop trigger from firing while paused
             stopTrigger();
             // query Video state
@@ -435,7 +495,8 @@
           randCallActive = 1;
           firstRandCall = 0;          
           triggerRandomly();  
-
+          //set connection icon back to good
+          updateSignal('good');
         }, reconnectTime);
 
       });
