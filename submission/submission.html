@@ -235,7 +235,7 @@
       let currentSaturationAdd = 100;
       // how much effect per error gets added, feel free to edit
       let additiveHue = 20;         //in deg
-      let additiveContrast = 100;    // in %
+      let additiveContrast = 50;    // in %
       let additiveBrightness = 10;  //in %
       let additiveBlurPX = 0;       //in px
       let additiveSaturation = 10;  //in %
@@ -321,7 +321,7 @@
 
         window.top.postMessage({ 
           type: 'setVideoFilter', 
-          value: 'contrast('+currentContrastAdd+'%) hue-rotate('+currentHueAdd+'deg) brightness('+currentBrightnessAdd+'%) blur('+currentBlurPXAdd+'px) saturate('+currentSaturationAdd+')' 
+          value: 'contrast('+currentContrastAdd+'%) hue-rotate('+currentHueAdd+'deg) brightness('+currentBrightnessAdd+'%) blur('+currentBlurPXAdd+'px) saturate('+currentSaturationAdd+'%)' 
         }, '*');
         console.log("current contrast is", currentContrastAdd);
         console.log("current hue rotation is", currentHueAdd);
@@ -332,14 +332,14 @@
       function dimVideo() {
         window.top.postMessage({ 
           type: 'setVideoFilter', 
-          value: 'contrast('+currentContrastAdd+'%) hue-rotate('+currentHueAdd+'deg) brightness(45%) blur('+currentBlurPXAdd+'px) saturate('+currentSaturationAdd+')' 
+          value: 'contrast('+currentContrastAdd+'%) hue-rotate('+currentHueAdd+'deg) brightness(45%) blur('+currentBlurPXAdd+'px) saturate('+currentSaturationAdd+'%)' 
         }, '*');
       }
 
       function undimVideo() {
         window.top.postMessage({ 
           type: 'setVideoFilter', 
-          value: 'contrast('+currentContrastAdd+'%) hue-rotate('+currentHueAdd+'deg) brightness('+currentBrightnessAdd+'%) blur('+currentBlurPXAdd+'px) saturate('+currentSaturationAdd+')' 
+          value: 'contrast('+currentContrastAdd+'%) hue-rotate('+currentHueAdd+'deg) brightness('+currentBrightnessAdd+'%) blur('+currentBlurPXAdd+'px) saturate('+currentSaturationAdd+'%)' 
         }, '*');
       }
 
