@@ -232,13 +232,15 @@
       let currentContrastAdd = 100;
       let currentBrightnessAdd = 100;
       let currentBlurPXAdd = 0;
+      let currentSaturationAdd = 100;
       // how much effect per error gets added, feel free to edit
       let additiveHue = 20;         //in deg
       let additiveContrast = 100;    // in %
       let additiveBrightness = 10;  //in %
-      let additiveBlurPX = 2;       //in px
-      let lowestLoopSpeed = 0.65     
-      let highesLoopSpeed = 1.35
+      let additiveBlurPX = 0;       //in px
+      let additiveSaturation = 50;  //in %
+      let lowestLoopSpeed = 0.65;     
+      let highesLoopSpeed = 1.35;
       // Timing variables, sets timing windows for when errors occur, feel free to edit
       let minimumErrorTime = 5000;   //in ms 1000 = 1s, minimum random error number for error timing
       let maximumErrorTime = 15000;  //in ms, maximum random number for error timing
@@ -310,15 +312,16 @@
         }
       }
 
-      function addVideoEffects(hueDegrees,contPercent,brightPercent,blurPX){
+      function addVideoEffects(hueDegrees,contPercent,brightPercent,blurPX,saturationPercent){
         currentHueAdd += hueDegrees;
         currentContrastAdd += contPercent;
         currentBrightnessAdd += brightPercent;
         currentBlurPXAdd += blurPX;
+        currentSaturationAdd += saturationPercent;
 
         window.top.postMessage({ 
           type: 'setVideoFilter', 
-          value: 'contrast('+currentContrastAdd+'%) hue-rotate('+currentHueAdd+'deg) brightness('+currentBrightnessAdd+'%) blur('+currentBlurPXAdd+'px)' 
+          value: 'contrast('+currentContrastAdd+'%) hue-rotate('+currentHueAdd+'deg) brightness('+currentBrightnessAdd+'%) blur('+currentBlurPXAdd+'px) saturation('+currentSaturationAdd+')' 
         }, '*');
         console.log("current contrast is", currentContrastAdd);
         console.log("current hue rotation is", currentHueAdd);
@@ -329,14 +332,14 @@
       function dimVideo() {
         window.top.postMessage({ 
           type: 'setVideoFilter', 
-          value: 'contrast('+currentContrastAdd+'%) hue-rotate('+currentHueAdd+'deg) brightness(45%) blur('+currentBlurPXAdd+'px)' 
+          value: 'contrast('+currentContrastAdd+'%) hue-rotate('+currentHueAdd+'deg) brightness(45%) blur('+currentBlurPXAdd+'px) saturation('+currentSaturationAdd+')' 
         }, '*');
       }
 
       function undimVideo() {
         window.top.postMessage({ 
           type: 'setVideoFilter', 
-          value: 'contrast('+currentContrastAdd+'%) hue-rotate('+currentHueAdd+'deg) brightness('+currentBrightnessAdd+'%) blur('+currentBlurPXAdd+'px)' 
+          value: 'contrast('+currentContrastAdd+'%) hue-rotate('+currentHueAdd+'deg) brightness('+currentBrightnessAdd+'%) blur('+currentBlurPXAdd+'px) saturation('+currentSaturationAdd+')' 
         }, '*');
       }
 
@@ -399,7 +402,7 @@
             // start pretimeout timer
             startPreCheckTimer();
             //rotate hue, increase contrast, increase brightness, increase Blur
-            addVideoEffects(additiveHue,additiveContrast,additiveBrightness,additiveBlurPX);
+            addVideoEffects(additiveHue,additiveContrast,additiveBrightness,additiveBlurPX,additiveSaturation);
           }
         }
         else{
