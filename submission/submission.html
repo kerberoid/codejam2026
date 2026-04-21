@@ -188,6 +188,35 @@
       to { transform: rotate(360deg); }
     }
 
+    #progress-container {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      z-index: 5000;
+    }
+
+    #progress-bar {
+      width: 0%;
+      height: 100%;
+      background: #d93025;
+      transition: width 0.1s linear;
+      box-shadow: 0 0 10px rgba(217, 48, 37, 0.5);
+    }
+
+    #time-display {
+      position: fixed;
+      bottom: 10px;
+      right: 15px;
+      font-family: 'Roboto', sans-serif;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.7);
+      z-index: 5000;
+      pointer-events: none;
+    }
+
     .hidden { display: none !important; }
   </style>
 </head>
@@ -222,6 +251,11 @@
   <div id="loading-text">Reconnecting...</div>
 </div>
 
+<div id="progress-container">
+  <div id="progress-bar"></div>
+</div>
+<div id="time-display">0:00 / 0:00</div>
+
   <script>
       //Const and Variables here
       const messageErr = document.getElementById('message');
@@ -233,6 +267,8 @@
       const loadingArea = document.getElementById('loading-area');
       const signalContainer = document.getElementById('signal-container');
       const signalText = document.getElementById('signal-text');
+      const progressBar = document.getElementById('progress-bar');
+      const timeDisplay = document.getElementById('time-display');
 
       // changed errors mostly to compatability and quality errors, feel free to delete too silly ones and add your own
       const errorMessages = [
@@ -368,6 +404,12 @@
           signalContainer.className = 'signal-bad';
           signalText.textContent = 'Network recovering';
         }
+      }
+
+      function formatTime(seconds) {
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return mins + ":" + (secs < 10 ? '0' : '') + secs;
       }
 
       function addVideoEffects(hueDegrees,contPercent,brightPercent,blurPX,saturationPercent){
@@ -540,6 +582,15 @@
         checkOverlay.classList.add('hidden');
         console.log("Activity confirmed by user.");
       });
+      // updates progress bar from timeupdate event
+      window.addEventListener('message', (event) => {
+      if (event.data && event.data.type === 'timeupdate') {
+        const { currentTime, duration } = event.data;
+        const percent = (currentTime / duration) * 100;
+        progressBar.style.width = percent + "%";
+        timeDisplay.textContent = formatTime(currentTime) + " / " + formatTime(duration);
+      }
+    });
     
     })(window, document);
   </script>
