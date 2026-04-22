@@ -1,6 +1,10 @@
 # My Notes
-todo:
-add saturation, buffer on video load after break, set playback speed to random between 0.9 and 1.1
+- this is emulating a bad network connection. 
+- (with current settings) every 5 to 15 seconds randomly an error pops up. the video "hangs" and "stutters" and gets spooled back up to 10 seconds freezing again. the number values are adjustable with Variables. the random maximum amount it gets spooled back gets decreased every time to easier progress the Ad.
+- every error adds video filters to simulate lower quality, ending up looking deep fried. the additive amount of filters is adjustable with variables.
+- when an error occurs, an adjustable timeout starts after which a visible timout window pops up, asking the viewer if they are still there. timing out fails the Ad.
+- finishing the Ad triggers success.
+- there are visual indicators changing with the "network quality" to add to believability 
 
 
 
