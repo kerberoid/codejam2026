@@ -17,7 +17,8 @@
     #signal-container {
       position: fixed;
       top: 15px;
-      right: 15px;
+      left: 50%;
+      transform: translateX(-50%);
       display: flex;
       align-items: flex-end;
       gap: 3px;
@@ -326,6 +327,7 @@
       let lowestLoopSpeed = 0.65;     
       let highesLoopSpeed = 1.35;
       // Timing variables, sets timing windows for when errors occur, feel free to edit
+      let maximumSetback = 10;        // sets hoch much time an error can set the viewer back initially, reduces each error
       let minimumErrorTime = 5000;   //in ms 1000 = 1s, minimum random error number for error timing
       let maximumErrorTime = 15000;  //in ms, maximum random number for error timing
       let loopduration = 0.75;          //in s floating, how long the loop during error is
@@ -351,11 +353,15 @@
       function requestVideoInfo() {
         window.top.postMessage({ type: 'getVideoInfo' }, '*');
       }
+      //sets video back by amount = maximumSetback
       function setVideoback() {
-        // you can change the amount this moves back here 
-        currentVidTimeStamp = videoInformation.currentTime - Math.random() * 10;
+        currentVidTimeStamp = videoInformation.currentTime - Math.random() * maximumSetback;
         console.log("new Timestamp:", currentVidTimeStamp);
         window.top.postMessage({ type: 'seekTo', value: currentVidTimeStamp }, '*');
+        //reduce setback as time moves on, to prevent too much frustration
+        if(maximumSetback >= 5){
+          maximumSetback = maximumSetback - 1;
+        }
       }
       // this runs the Visible timeout
       function startCheckTimer() {
