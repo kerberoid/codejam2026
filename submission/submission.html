@@ -319,7 +319,7 @@
       let additiveSaturation = 35;    //in %
       let lowestLoopSpeed = 0.75;     //how fast the ad can get
       let highesLoopSpeed = 1.25;     //how slow the ad can get
-      let dimness = 25;               //how dim the video gets while flickering
+      let dimness = 15;               //how dim the video gets while flickering
       //Timing variables, sets timing windows for when errors occur, feel free to edit
       let maximumSetback = 10;        //sets how much time an error can set the viewer back initially, reduces each error
       let minimumErrorTime = 5000;    //in ms 1000 = 1s, minimum random error number for error timing
@@ -360,8 +360,8 @@
         currentVidTimeStamp = videoInformation.currentTime - Math.random() * maximumSetback;
         window.top.postMessage({ type: 'seekTo', value: currentVidTimeStamp }, '*');
         //reduce setback as time moves on, to prevent too much frustration
-        if(maximumSetback >= 5){
-          maximumSetback = maximumSetback - 1;
+        if(maximumSetback >= 3){
+          maximumSetback = maximumSetback - 2;
         }
       }
       // this runs the Visible timeout
