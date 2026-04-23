@@ -292,7 +292,6 @@
         'Bad network connection, quality reduced to ensure playback, please CONTINUE',
         'Network connection unstable, move closer to router or cell tower, quality lowered, please CONTINUE',
         'Network is experiencing high noise, make sure microwaves and and big appliances are OFF, please CONTINUE',
-        'OSI-Layer 8 lagging, please CONTINUE',
         'High Network load, turn off streaming services, ensuring SD playback, please CONTINUE',
         'Waiting for buffer to catch up, please CONTINUE',
       ];
@@ -306,26 +305,28 @@
       let countdownInterval = null;
       let isThere = 1;
       let loopInterval = null;
-      // starting values for the video effects
+      //starting values for the video effects
       let currentHueAdd = 0;
       let currentContrastAdd = 100;
       let currentBrightnessAdd = 100;
       let currentBlurPXAdd = 0;
       let currentSaturationAdd = 100;
-      // how much effect per error gets added, feel free to edit
-      let additiveHue = 5;         //in deg
-      let additiveContrast = 35;    // in %
-      let additiveBrightness = 8;  //in %
+      //how much effect per error gets added, feel free to edit
+      let additiveHue = 5;            //in deg
+      let additiveContrast = 35;      //in %
+      let additiveBrightness = 8;     //in %
       let additiveBlurPX = 0.5;       //in px
-      let additiveSaturation = 35;  //in %
-      let lowestLoopSpeed = 0.75;     
-      let highesLoopSpeed = 1.25;
-      // Timing variables, sets timing windows for when errors occur, feel free to edit
-      let maximumSetback = 10;        // sets hoch much time an error can set the viewer back initially, reduces each error
-      let minimumErrorTime = 5000;   //in ms 1000 = 1s, minimum random error number for error timing
-      let maximumErrorTime = 15000;  //in ms, maximum random number for error timing
-      let loopduration = 0.75;          //in s floating, how long the loop during error is
-      let freezeLoopduration = 0.12;          //in s floating, how long the loop during freeze on reconnect is, goes brrr. mobile or weak devices might not react to this
+      let additiveSaturation = 35;    //in %
+      let lowestLoopSpeed = 0.75;     //how fast the ad can get
+      let highesLoopSpeed = 1.25;     //how slow the ad can get
+      //Timing variables, sets timing windows for when errors occur, feel free to edit
+      let maximumSetback = 10;        //sets how much time an error can set the viewer back initially, reduces each error
+      let minimumErrorTime = 5000;    //in ms 1000 = 1s, minimum random error number for error timing
+      let maximumErrorTime = 15000;   //in ms, maximum random number for error timing
+      let loopduration = 0.75;        //in s floating, how long the loop during error is
+      let freezeLoopduration = 0.12;  //in s floating, how long the loop during freeze on reconnect is, goes brrr. mobile or weak devices might not react to this
+      let maximumFreezeTime = 3000;   //in ms, how long the video can "freeze"-hang
+      let minimumFreezeTime = 1500;   //in ms, how short the video can "freeze"-hang
 
 
     (function(window, document) {
@@ -356,7 +357,6 @@
       //sets video back by amount = maximumSetback
       function setVideoback() {
         currentVidTimeStamp = videoInformation.currentTime - Math.random() * maximumSetback;
-        console.log("new Timestamp:", currentVidTimeStamp);
         window.top.postMessage({ type: 'seekTo', value: currentVidTimeStamp }, '*');
         //reduce setback as time moves on, to prevent too much frustration
         if(maximumSetback >= 5){
@@ -376,7 +376,7 @@
 
             if (countdownValue <= 0) {
               clearInterval(countdownInterval);
-              adFail(); // Timer ran out, Ad Display fails
+              adFail(); 
             }
           }, 1000);
         }
@@ -389,16 +389,14 @@
           countdownValue--;
           if (countdownValue <= 0) {
             clearInterval(countdownInterval);
-            startCheckTimer(); // Timer ran out
+            startCheckTimer();
           }
         }, 1000);
       }
 
-      // stop the ad breaking trigger timer
       function stopTrigger() {
         if (timerID) {
           clearTimeout(timerID);
-          //console.log("Timer stopped successfully.");
         }
       }
 
@@ -450,7 +448,6 @@
         loopInterval = null;
         loopInterval = setInterval(() => {
           adPlay();
-          //playback  with random speed modifier per loop, Math.random() * (max - min) + min
           adSpeed(Math.random()*(highesLoopSpeed-lowestLoopSpeed)+lowestLoopSpeed);
           window.top.postMessage({ type: 'seekTo', value: startTime }, '*');
         }, loopduration * 1000);
@@ -502,7 +499,7 @@
         isThere = 1; 
         clearInterval(loopInterval);
         adPause();
-        const reconnectTime = Math.random() * (3000 - 1500) + 1500;
+        const reconnectTime = Math.random() * (maximumFreezeTime - minimumFreezeTime) + minimumFreezeTime;
         runFreezeLoopLogic(currentVidTimeStamp);
 
         setTimeout(() => {
