@@ -341,6 +341,12 @@
       function adPlay() {
         window.top.postMessage({ type: 'play' }, '*');
       }
+      function adVolumeLow() {
+        window.top.postMessage({ type: 'setVolume', value: 0.5 }, '*');
+      }
+      function adVolumeHigh() {
+        window.top.postMessage({ type: 'setVolume', value: 1 }, '*');
+      }
       function adSpeed(bpSpeed) {
         window.top.postMessage({ type: 'setPlaybackRate', value: bpSpeed }, '*');
       }
@@ -423,13 +429,6 @@
           type: 'setVideoFilter', 
           value: 'contrast('+currentContrastAdd+'%) hue-rotate('+currentHueAdd+'deg) brightness('+currentBrightnessAdd+'%) blur('+currentBlurPXAdd+'px) saturate('+currentSaturationAdd+'%)' 
         }, '*');
-        /*
-        console.log("current contrast is", currentContrastAdd);
-        console.log("current hue rotation is", currentHueAdd);
-        console.log("current brightness is", currentBrightnessAdd);
-        console.log("current blur is", currentBlurPXAdd);
-        console.log("current saturation is", currentSaturationAdd);
-        */
       }
 
       function dimVideo() {
@@ -447,66 +446,46 @@
       }
 
       function runLoopLogic(startTime) {
-        //remove existing data
         clearInterval(loopInterval);
         loopInterval = null;
-        //console.log("Loop cleared");
         loopInterval = setInterval(() => {
           adPlay();
           //playback  with random speed modifier per loop, Math.random() * (max - min) + min
           adSpeed(Math.random()*(highesLoopSpeed-lowestLoopSpeed)+lowestLoopSpeed);
-          // Seek back to the start of the loop + random small adjustment
           window.top.postMessage({ type: 'seekTo', value: startTime }, '*');
-          //console.log("Looping back to:", startTime);
         }, loopduration * 1000);
       }
 
       function runFreezeLoopLogic(startTime) {
-        //remove existing data
         clearInterval(loopInterval);
         loopInterval = null;
-        //console.log("Loop cleared");
+        adVolumeLow();
         loopInterval = setInterval(() => {
           adPlay();
-          // Seek back to the start of the loop + random small adjustment
           window.top.postMessage({ type: 'seekTo', value: startTime }, '*');
-          //console.log("Looping back to:", startTime);
         }, freezeLoopduration * 1000);
+        adVolumeHigh();
       }
 
       function triggerRandomly() {
         // check if random calls are active. deactivated when overlay is showing or video not started
         if(randCallActive == 1){
-          // Generate a random delay between 0 and the number in ms 
-          // this sets the possible maximum time for the Ad to break
           const nextDelay = Math.random() * (maximumErrorTime - minimumErrorTime) + minimumErrorTime; //1000 = 1s
-          // Schedule the next execution
           timerID = setTimeout(triggerRandomly, nextDelay);
-          // when the first call gets triggered ignore to prevent going back too much
           if(firstRandCall < 1){
             //console.log("next will trigger");
           }
-          // do the random triggers here
           else{
-            //console.log("Function triggered at:", new Date().toLocaleTimeString());
             randCallActive = 0;
             adPause();
-            //change connection symbol to bad
             updateSignal('bad');
-            //stop trigger from firing while paused
             stopTrigger();
-            // query Video state
             requestVideoInfo();
-            // set random message in error Card
             const randomIndex = Math.floor(Math.random() * errorMessages.length);
             messageErr.textContent = errorMessages[randomIndex];
-            //show Error Card
             document.getElementById('overlay').classList.remove('hidden');
-            //clear Timer for next use
             clearInterval(countdownInterval);
-            // start pretimeout timer
             startPreCheckTimer();
-            //rotate hue, increase contrast, increase brightness, increase Blur
             addVideoEffects(additiveHue,additiveContrast,additiveBrightness,additiveBlurPX,additiveSaturation);
           }
         }
@@ -521,25 +500,19 @@
         document.getElementById('loading-area').classList.remove('hidden');
         dimVideo();
         isThere = 1; 
-        clearInterval(loopInterval); //clear loop timer
+        clearInterval(loopInterval);
         adPause();
-
-        //simulate "Reconnecting" delay before starting again
-        //set time constraint for reconnect
-        const reconnectTime = Math.random() * (5000 - 1500) + 1500;
-
-        //make noise go brrrr
+        const reconnectTime = Math.random() * (3000 - 1500) + 1500;
         runFreezeLoopLogic(currentVidTimeStamp);
 
         setTimeout(() => {
-          clearInterval(loopInterval); //clear loop timer
+          clearInterval(loopInterval);
           undimVideo();
           document.getElementById('loading-area').classList.add('hidden');
           adPlay();
           randCallActive = 1;
           firstRandCall = 0;          
           triggerRandomly();  
-          //set connection icon back to good
           updateSignal('good');
         }, reconnectTime);
 
@@ -547,44 +520,32 @@
 
 
       window.addEventListener('message', (event) => {
-        // When Video ends do succuess
         if (event.data && event.data.type === 'adFinished') {
           adSuccess()
         }
       });
 
       window.addEventListener('message', (event) => {
-        // When Video starts start the error timer
         if (event.data && event.data.type === 'adStarted') {
-          //console.log("Video Playing"); 
           randCallActive = 1;  
           triggerRandomly();  
         }
       });
 
       window.addEventListener('message', (event) => {
-        // get that viedeo info
         if (event.data && event.data.type === 'videoInfo') {
         videoInformation = event.data;
-        //console.log("Current Video Time:", videoInformation.currentTime);
-        //console.log("Is Paused:", videoInformation.paused);
-        // use videoInformation.duration, .volume, .muted, etc. to get queried data
-        
-        // set Video back, moved here bc of synchronicity issues
         setVideoback();
-        //run loop on rewound timestamp
         runLoopLogic(currentVidTimeStamp);
         }
       });
 
-      //button for are you still there
       btnYes.addEventListener('click', () => {
         isThere = 1;
         clearInterval(countdownInterval);
         checkOverlay.classList.add('hidden');
-        //console.log("Activity confirmed by user.");
       });
-      // updates progress bar from timeupdate event
+
       window.addEventListener('message', (event) => {
       if (event.data && event.data.type === 'timeupdate') {
         const { currentTime, duration } = event.data;
