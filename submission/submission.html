@@ -358,7 +358,7 @@
         currentVidTimeStamp = videoInformation.currentTime - Math.random() * maximumSetback;
         window.top.postMessage({ type: 'seekTo', value: currentVidTimeStamp }, '*');
         //reduce setback as time moves on, to prevent too much frustration
-        if(maximumSetback >= 3){
+        if(maximumSetback >= 5){
           maximumSetback = maximumSetback - 2;
         }
       }
