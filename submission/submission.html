@@ -174,7 +174,7 @@
       text-transform: uppercase;
     }
 
-    #spinner {
+    .spinner {
       align-items: center;
       justify-content: center;
       width: 40px;
@@ -296,7 +296,7 @@
         'High Network load, turn off streaming services, ensuring SD playback, please CONTINUE',
         'Waiting for buffer to catch up, please CONTINUE',
       ];
-      // Variables for loop logic, do not edit
+      // Variables for loop logic
       let firstRandCall = 0;
       let randCallActive = 0;
       let timerID = null;
@@ -313,19 +313,19 @@
       let currentBlurPXAdd = 0;
       let currentSaturationAdd = 100;
       // how much effect per error gets added, feel free to edit
-      let additiveHue = 10;         //in deg
-      let additiveContrast = 75;    // in %
+      let additiveHue = 5;         //in deg
+      let additiveContrast = 35;    // in %
       let additiveBrightness = 8;  //in %
-      let additiveBlurPX = 0.2;       //in px
+      let additiveBlurPX = 0.5;       //in px
       let additiveSaturation = 35;  //in %
-      let lowestLoopSpeed = 0.65;     
-      let highesLoopSpeed = 1.35;
+      let lowestLoopSpeed = 0.75;     
+      let highesLoopSpeed = 1.25;
       // Timing variables, sets timing windows for when errors occur, feel free to edit
       let maximumSetback = 10;        // sets hoch much time an error can set the viewer back initially, reduces each error
       let minimumErrorTime = 5000;   //in ms 1000 = 1s, minimum random error number for error timing
       let maximumErrorTime = 15000;  //in ms, maximum random number for error timing
       let loopduration = 0.75;          //in s floating, how long the loop during error is
-      let freezeLoopduration = 0.15;          //in s floating, how long the loop during freeze on reconnect is, goes brrr. mobile or weak devices might not react to this
+      let freezeLoopduration = 0.12;          //in s floating, how long the loop during freeze on reconnect is, goes brrr. mobile or weak devices might not react to this
 
 
     (function(window, document) {
