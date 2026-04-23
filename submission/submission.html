@@ -271,9 +271,7 @@
       const progressBar = document.getElementById('progress-bar');
       const timeDisplay = document.getElementById('time-display');
 
-      // changed errors mostly to compatability and quality errors, feel free to delete too silly ones and add your own
       const errorMessages = [
-        'There was a network error. Please CONTINUE. (Error #2000)',
         'Enabled browser compatibility mode, please CONTINUE',
         'Premium bitrate limit exceeded, quality lowered, please CONTINUE',
         'Server limited the bandwith, please CONTINUE',
@@ -289,11 +287,11 @@
         'WWWWtsactp exceeding peering contingent, Quality adjusted, please CONTINUE',
         'Quality adjusted to save bandwith, please CONTINUE',
         'Tracking lost, quality lowered to save bandwith, keep eyes on Ad and please CONTINUE',
-        'Bad network connection, quality reduced to ensure playback, please CONTINUE',
+        'Mediocre network connection, quality reduced to ensure playback, please CONTINUE',
         'Network connection unstable, move closer to router or cell tower, quality lowered, please CONTINUE',
         'Network is experiencing high noise, make sure microwaves and and big appliances are OFF, please CONTINUE',
-        'High Network load, turn off streaming services, ensuring SD playback, please CONTINUE',
-        'Waiting for buffer to catch up, please CONTINUE',
+        'High Network load, ensuring SD playback, please CONTINUE',
+        'Buffer catched up, please CONTINUE',
       ];
       // Variables for loop logic
       let firstRandCall = 0;
@@ -325,7 +323,7 @@
       let minimumErrorTime = 5000;    //in ms 1000 = 1s, minimum random error number for error timing
       let maximumErrorTime = 15000;   //in ms, maximum random number for error timing
       let loopduration = 0.75;        //in s floating, how long the loop during error is
-      let freezeLoopduration = 0.12;  //in s floating, how long the loop during freeze on reconnect is, goes brrr. mobile or weak devices might not react to this
+      let freezeLoopduration = 0.13;  //in s floating, how long the loop during freeze on reconnect is, goes brrr. mobile or weak devices might not react to this
       let maximumFreezeTime = 3000;   //in ms, how long the video can "freeze"-hang
       let minimumFreezeTime = 1500;   //in ms, how short the video can "freeze"-hang
 
