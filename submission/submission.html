@@ -311,7 +311,7 @@
       let currentBrightnessAdd = 100;
       let currentBlurPXAdd = 0;
       let currentSaturationAdd = 100;
-      //how much effect per error gets added, feel free to edit
+      //Video effect and speed modifiers, feel free to edit
       let additiveHue = 5;            //in deg
       let additiveContrast = 35;      //in %
       let additiveBrightness = 8;     //in %
@@ -319,6 +319,7 @@
       let additiveSaturation = 35;    //in %
       let lowestLoopSpeed = 0.75;     //how fast the ad can get
       let highesLoopSpeed = 1.25;     //how slow the ad can get
+      let dimness = 25;               //how dim the video gets while flickering
       //Timing variables, sets timing windows for when errors occur, feel free to edit
       let maximumSetback = 10;        //sets how much time an error can set the viewer back initially, reduces each error
       let minimumErrorTime = 5000;    //in ms 1000 = 1s, minimum random error number for error timing
@@ -432,7 +433,7 @@
       function dimVideo() {
         window.top.postMessage({ 
           type: 'setVideoFilter', 
-          value: 'contrast('+currentContrastAdd+'%) hue-rotate('+currentHueAdd+'deg) brightness(45%) blur('+currentBlurPXAdd+'px) saturate('+currentSaturationAdd+'%)' 
+          value: 'contrast('+currentContrastAdd+'%) hue-rotate('+currentHueAdd+'deg) brightness('+dimness+'%) blur('+currentBlurPXAdd+'px) saturate('+currentSaturationAdd+'%)' 
         }, '*');
       }
 
