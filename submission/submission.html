@@ -353,19 +353,18 @@
       function requestVideoInfo() {
         window.top.postMessage({ type: 'getVideoInfo' }, '*');
       }
-      //sets video back by amount = maximumSetback
+  
       function setVideoback() {
         currentVidTimeStamp = videoInformation.currentTime - Math.random() * maximumSetback;
         window.top.postMessage({ type: 'seekTo', value: currentVidTimeStamp }, '*');
-        //reduce setback as time moves on, to prevent too much frustration
         if(maximumSetback >= 5){
           maximumSetback = maximumSetback - 2;
         }
       }
-      // this runs the Visible timeout
+
       function startCheckTimer() {
         if (isThere == 0){
-          countdownValue = 5; //how long the visible Timeout is
+          countdownValue = 5;
           countdownDisplay.textContent = countdownValue;
           checkOverlay.classList.remove('hidden');
 
@@ -382,8 +381,8 @@
       }
       // runs the timeout while error is on screen before visible timeout shows
       function startPreCheckTimer() {
-        isThere = 0;        //sets if person is there to 0, determines if visible popup shows
-        countdownValue = 5; //how long the timeout is until the visible timeout appears
+        isThere = 0; 
+        countdownValue = 5; 
         countdownInterval = setInterval(() => {
           countdownValue--;
           if (countdownValue <= 0) {
@@ -464,7 +463,6 @@
       }
 
       function triggerRandomly() {
-        // check if random calls are active. deactivated when overlay is showing or video not started
         if(randCallActive == 1){
           const nextDelay = Math.random() * (maximumErrorTime - minimumErrorTime) + minimumErrorTime; //1000 = 1s
           timerID = setTimeout(triggerRandomly, nextDelay);
