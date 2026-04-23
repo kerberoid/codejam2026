@@ -295,17 +295,6 @@
         'OSI-Layer 8 lagging, please CONTINUE',
         'High Network load, turn off streaming services, ensuring SD playback, please CONTINUE',
         'Waiting for buffer to catch up, please CONTINUE',
-        //maybe a bit too Silly
-        /*
-        'Sponsor requieres more attention, quality reduced, please CONTINUE',
-        'Sponsor pulled funding, quality lowered, please CONTINUE',
-        'user not PREMIUM member, to continue with lower quality, please CONTINUE',
-        ':( An expected network error occured, please CONTINUE',
-        'Non-compliant user behavior detected, applying digital discipline filter, please CONTINUE',
-        'Subliminal messaging buffer underrun. Re-indoctrinating viewer, please CONTINUE',
-        'Bit-backflip detected, quality budget lowered, please CONTINUE',
-        'M1ll32-Object experiences loss of Agape, Quality reduction applied, please CONTINUE',
-        */
       ];
       // Variables for loop logic, do not edit
       let firstRandCall = 0;
@@ -336,7 +325,7 @@
       let minimumErrorTime = 5000;   //in ms 1000 = 1s, minimum random error number for error timing
       let maximumErrorTime = 15000;  //in ms, maximum random number for error timing
       let loopduration = 0.75;          //in s floating, how long the loop during error is
-      let freezeLoopduration = 0.15;          //in s floating, how long the loop during freeze on reconnect is
+      let freezeLoopduration = 0.15;          //in s floating, how long the loop during freeze on reconnect is, goes brrr. mobile or weak devices might not react to this
 
 
     (function(window, document) {
@@ -388,7 +377,7 @@
       }
       // runs the timeout while error is on screen before visible timeout shows
       function startPreCheckTimer() {
-        isThere = 0; //set if person is there to 0, determines if visible popup shows
+        isThere = 0;        //sets if person is there to 0, determines if visible popup shows
         countdownValue = 5; //how long the timeout is until the visible timeout appears
         countdownInterval = setInterval(() => {
           countdownValue--;
@@ -403,7 +392,7 @@
       function stopTrigger() {
         if (timerID) {
           clearTimeout(timerID);
-          console.log("Timer stopped successfully.");
+          //console.log("Timer stopped successfully.");
         }
       }
 
@@ -434,10 +423,13 @@
           type: 'setVideoFilter', 
           value: 'contrast('+currentContrastAdd+'%) hue-rotate('+currentHueAdd+'deg) brightness('+currentBrightnessAdd+'%) blur('+currentBlurPXAdd+'px) saturate('+currentSaturationAdd+'%)' 
         }, '*');
+        /*
         console.log("current contrast is", currentContrastAdd);
         console.log("current hue rotation is", currentHueAdd);
         console.log("current brightness is", currentBrightnessAdd);
         console.log("current blur is", currentBlurPXAdd);
+        console.log("current saturation is", currentSaturationAdd);
+        */
       }
 
       function dimVideo() {
@@ -458,14 +450,14 @@
         //remove existing data
         clearInterval(loopInterval);
         loopInterval = null;
-        console.log("Loop cleared");
+        //console.log("Loop cleared");
         loopInterval = setInterval(() => {
           adPlay();
           //playback  with random speed modifier per loop, Math.random() * (max - min) + min
           adSpeed(Math.random()*(highesLoopSpeed-lowestLoopSpeed)+lowestLoopSpeed);
           // Seek back to the start of the loop + random small adjustment
           window.top.postMessage({ type: 'seekTo', value: startTime }, '*');
-          console.log("Looping back to:", startTime);
+          //console.log("Looping back to:", startTime);
         }, loopduration * 1000);
       }
 
@@ -473,12 +465,12 @@
         //remove existing data
         clearInterval(loopInterval);
         loopInterval = null;
-        console.log("Loop cleared");
+        //console.log("Loop cleared");
         loopInterval = setInterval(() => {
           adPlay();
           // Seek back to the start of the loop + random small adjustment
           window.top.postMessage({ type: 'seekTo', value: startTime }, '*');
-          console.log("Looping back to:", startTime);
+          //console.log("Looping back to:", startTime);
         }, freezeLoopduration * 1000);
       }
 
@@ -492,11 +484,11 @@
           timerID = setTimeout(triggerRandomly, nextDelay);
           // when the first call gets triggered ignore to prevent going back too much
           if(firstRandCall < 1){
-            console.log("next will trigger");
+            //console.log("next will trigger");
           }
           // do the random triggers here
           else{
-            console.log("Function triggered at:", new Date().toLocaleTimeString());
+            //console.log("Function triggered at:", new Date().toLocaleTimeString());
             randCallActive = 0;
             adPause();
             //change connection symbol to bad
@@ -519,9 +511,8 @@
           }
         }
         else{
-          console.log("called but not active");
+          //console.log("called but not active");
         }
-        //start with triggerRandomly();
         firstRandCall++;
       }
 
@@ -565,7 +556,7 @@
       window.addEventListener('message', (event) => {
         // When Video starts start the error timer
         if (event.data && event.data.type === 'adStarted') {
-          console.log("Video Playing"); 
+          //console.log("Video Playing"); 
           randCallActive = 1;  
           triggerRandomly();  
         }
@@ -575,8 +566,8 @@
         // get that viedeo info
         if (event.data && event.data.type === 'videoInfo') {
         videoInformation = event.data;
-        console.log("Current Video Time:", videoInformation.currentTime);
-        console.log("Is Paused:", videoInformation.paused);
+        //console.log("Current Video Time:", videoInformation.currentTime);
+        //console.log("Is Paused:", videoInformation.paused);
         // use videoInformation.duration, .volume, .muted, etc. to get queried data
         
         // set Video back, moved here bc of synchronicity issues
@@ -591,7 +582,7 @@
         isThere = 1;
         clearInterval(countdownInterval);
         checkOverlay.classList.add('hidden');
-        console.log("Activity confirmed by user.");
+        //console.log("Activity confirmed by user.");
       });
       // updates progress bar from timeupdate event
       window.addEventListener('message', (event) => {
